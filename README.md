@@ -1,0 +1,11 @@
+# Drtuxwang Apps
+
+## How do I install these formulae?
+
+`brew install drtuxwang/apps/<formula>`
+
+Or `brew tap drtuxwang/apps` and then `brew install <formula>`.
+
+## Documentation
+
+`brew help`, `man brew` or check [Homebrew's documentation](https://docs.brew.sh).
