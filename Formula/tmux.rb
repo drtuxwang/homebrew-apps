@@ -1,4 +1,4 @@
-class TmuxAT33A < Formula
+class Tmux < Formula
   desc "Terminal multiplexer"
   homepage "https://tmux.github.io/"
   url "https://github.com/tmux/tmux/releases/download/3.3a/tmux-3.3a.tar.gz"
