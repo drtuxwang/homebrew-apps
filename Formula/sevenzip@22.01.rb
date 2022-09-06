@@ -1,4 +1,4 @@
-class Sevenzip < Formula
+class SevenzipAT2201 < Formula
   desc "7-Zip is a file archiver with a high compression ratio"
   homepage "https://7-zip.org"
   url "https://7-zip.org/a/7z2201-src.tar.xz"
