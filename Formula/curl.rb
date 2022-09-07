@@ -1,22 +1,20 @@
 class Curl < Formula
   desc "Get a file from an HTTP, HTTPS or FTP server"
-  homepage "https://curl.haxx.se/"
-  url "https://curl.haxx.se/download/curl-7.74.0.tar.bz2"
-  sha256 "0f4d63e6681636539dc88fa8e929f934cd3a840c46e0bf28c73be11e521b77a5"
+  homepage "https://curl.se"
+  url "https://curl.haxx.se/download/curl-7.76.0.tar.bz2"
+  sha256 "e29bfe3633701590d75b0071bbb649ee5ca4ca73f00649268bd389639531c49a"
   license "curl"
 
   livecheck do
-    url "https://curl.haxx.se/download/"
+    url "https://curl.se/download/"
     regex(/href=.*?curl[._-]v?(.*?)\.t/i)
   end
 
   bottle do
-    cellar :any
-    rebuild 1
-    sha256 "c6ab851e1535ebea16d0af34a620ca3bf37d2b1b9571ab7a1f4403f859129c10" => :big_sur
-    sha256 "2727fbadda487785e7e7033b045196f6e5f65670d3984366d535f4e7f01dad3d" => :arm64_big_sur
-    sha256 "f3d93b2c3ba69e5c7afd8bb2ff2b2daf67ddc9c5b0a5184a2fa565d9a05b26b2" => :catalina
-    sha256 "c305611273c90a9b973df642e60f31b931ba1276294406d3a910d36472ad45ba" => :mojave
+    sha256 cellar: :any, arm64_big_sur: "feef288ebc2fb55c4c0803e233c600b5ded8e92863f0ad3a058c9c007933940b"
+    sha256 cellar: :any, big_sur:       "04b809e93240c4b79bad7d224756492a574e6f97e78d2b394cb7418b633d5c7d"
+    sha256 cellar: :any, catalina:      "f06f0f2a005d444c23cdaec96f047a204cb024ee881213682ab3374f1d1f4dbd"
+    sha256 cellar: :any, mojave:        "ebcf2c049613a0655429872b1bd109b1dd00ba1721e6356cf2aec8b95ba37e47"
   end
 
   head do
@@ -40,6 +38,7 @@ class Curl < Formula
   depends_on "rtmpdump"
   depends_on "zstd"
 
+  uses_from_macos "krb5"
   uses_from_macos "zlib"
 
   def install
@@ -63,6 +62,14 @@ class Curl < Formula
       --with-libssh2
       --without-libpsl
     ]
+
+    on_macos do
+      args << "--with-gssapi"
+    end
+
+    on_linux do
+      args << "--with-gssapi=#{Formula["krb5"].opt_prefix}"
+    end
 
     system "./configure", *args
     system "make", "install"
