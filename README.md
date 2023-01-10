@@ -1,4 +1,4 @@
-# 2022 By Dr Colin Kong
+# 2022-2023  By Dr Colin Kong
 
 This repo is used to pin Homebrew Formula to stable versions instead of using latest.
 Check [Homebrew's documentation](https://docs.brew.sh).
