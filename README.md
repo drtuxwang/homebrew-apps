@@ -16,6 +16,7 @@ brew install --cask drtuxwang/apps/<formula>
 
  * Casks/gimp.rb            GIMP 2.10.22
  * Casks/iterm2.rb          iTerm2 3.4.19
+ * Casks/libreoffice.rb     LibreOffice 7.4.5
  * Casks/meld.rb            MELD 3.21.0
  * Casks/robo-3t.rb         Robo3T 1.4.4
  * Casks/virtualbox.rb      VirtualBox 7.0.6
