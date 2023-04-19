@@ -4,7 +4,7 @@ cask "libreoffice" do
 
   version "7.4.6.2"
   sha256 arm:   "544ae8ffb3a562d3b2f3fcfcdba1c727c55eb30137423250845f7ac2b566ae65",
-         intel: "d16986c9891eec65785c828415160a186afa02f2ce8c4032752553a4a95e9f71"
+         intel: "85bef614c4ce863b20325d2896b8c4f9d3227c718e57172930eb742317a020db"
 
   url "https://downloadarchive.documentfoundation.org/libreoffice/old/#{version}/mac/#{folder}/LibreOffice_#{version}_MacOS_#{arch}.dmg",
       verified: "download.documentfoundation.org/libreoffice/stable/"
