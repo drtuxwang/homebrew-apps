@@ -5,15 +5,17 @@ Check [Homebrew's documentation](https://docs.brew.sh).
 <br/>
 
 Stable versions taken from:
+
 * git clone https://github.com/Homebrew/homebrew-core
 * git clone https://github.com/homebrew/homebrew-cask
 * git clone https://github.com/Homebrew/homebrew-cask-versions
 
 ---
 ```
-brew tap drtuxwang/apps https://github.com/drtuxwang/system-config.git
-brew install drtuxwang/apps/<formula>
-brew install --cask drtuxwang/apps/<formula>
+Usage:
+  brew tap drtuxwang/apps https://github.com/drtuxwang/system-config.git
+  brew install drtuxwang/apps/<formula>
+  brew install --cask drtuxwang/apps/<formula>
 
  * Casks/firefox-esr.rb     Firefox ESR 102.10.0
  * Casks/gimp.rb            GIMP 2.10.22
@@ -39,7 +41,7 @@ brew install --cask drtuxwang/apps/<formula>
  * Formula/findutils.rb     GNU findutils 4.8.0
  * Formula/geeqie.rb        Geeqie 2.0.1
  * Formula/gnu-sed.rb       GNU sed 4.8
- * Formula/gnu-tar.rb       GNY tar 1.34
+ * Formula/gnu-tar.rb       GNU tar 1.34
  * Formula/grep.rb          GNU Grep 3.6
  * Formula/htop.rb          htop 3.0.5
  * Formula/jpeginfo.rb      Jpeginfo 1.6.1
