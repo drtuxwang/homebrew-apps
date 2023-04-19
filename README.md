@@ -7,6 +7,7 @@ Check [Homebrew's documentation](https://docs.brew.sh).
 Stable versions taken from:
 * git clone https://github.com/Homebrew/homebrew-core
 * git clone https://github.com/homebrew/homebrew-cask
+* git clone https://github.com/Homebrew/homebrew-cask-versions
 
 ---
 ```
@@ -14,11 +15,13 @@ brew tap drtuxwang/apps https://github.com/drtuxwang/system-config.git
 brew install drtuxwang/apps/<formula>
 brew install --cask drtuxwang/apps/<formula>
 
+ * Casks/firefox-esr.rb     Firefox ESR 102.10.0
  * Casks/gimp.rb            GIMP 2.10.22
  * Casks/iterm2.rb          iTerm2 3.4.19
  * Casks/libreoffice.rb     LibreOffice 7.4.5
  * Casks/meld.rb            MELD 3.21.0
  * Casks/microsoft-edge.rb  Microsoft Edge 111.0.1661.62
+ * Casks/microsoft-teams.rb Microsoft Teams 1.6.00.7354
  * Casks/robo-3t.rb         Robo3T 1.4.4
  * Casks/virtualbox.rb      VirtualBox 7.0.6
  * Casks/vlc.rb             VLC 3.0.18
@@ -42,6 +45,8 @@ brew install --cask drtuxwang/apps/<formula>
  * Formula/jpeginfo.rb      Jpeginfo 1.6.1
  * Formula/jq.rb            JQ 1.6
  * Formula/make.rb          GNU Make 4.3
+ * Formula/node@16.rb       NodeJS 16.20.0
+ * Formula/openjdk@17.rb    OpenJDK 17.0.6
  * Formula/par2.rb          PAR2 0.8.1
  * Formula/pv.rb            PV 1.6.6
  * Formula/qemu.rb          QEMU 7.0.0
