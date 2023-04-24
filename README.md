@@ -37,7 +37,7 @@ Usage:
  * Formula/bzip2.rb         bzip2 1.0.6
  * Formula/coreutils.rb     Coreutils 8.32
  * Formula/curl.rb          Curl 7.77
- * Formula/ddrescue.rb      Ddrescue 1.23
+ * Formula/ddrescue.rb      Ddrescue 1.25
  * Formula/ffmpeg@4.rb      FFmpeg 4.4.1
  * Formula/findutils.rb     GNU findutils 4.8.0
  * Formula/geeqie.rb        Geeqie 2.0.1
@@ -47,7 +47,7 @@ Usage:
  * Formula/grep.rb          GNU Grep 3.6
  * Formula/gnu-which.rb     GNU which 2.21
  * Formula/htop.rb          htop 3.0.5
- * Formula/imagemagick@6.rb ImageMagick 6.9.11
+ * Formula/imagemagick@6.rb ImageMagick 6.9.12
  * Formula/iproute2mac.rb   iproute2mac 1.4.1
  * Formula/jpeginfo.rb      Jpeginfo 1.6.1
  * Formula/jq.rb            JQ 1.6
