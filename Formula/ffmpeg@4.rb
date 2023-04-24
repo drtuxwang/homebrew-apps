@@ -1,25 +1,18 @@
-class Ffmpeg < Formula
+class FfmpegAT4 < Formula
   desc "Play, record, convert, and stream audio and video"
   homepage "https://ffmpeg.org/"
-  url "https://ffmpeg.org/releases/ffmpeg-4.3.2.tar.xz"
-  sha256 "46e4e64f1dd0233cbc0934b9f1c0da676008cad34725113fb7f802cfa84ccddb"
+  url "https://ffmpeg.org/releases/ffmpeg-4.4.1.tar.xz"
+  sha256 "eadbad9e9ab30b25f5520fbfde99fae4a92a1ae3c0257a8d68569a4651e30e02"
   # None of these parts are used by default, you have to explicitly pass `--enable-gpl`
   # to configure to activate them. In this case, FFmpeg's license changes to GPL v2+.
   license "GPL-2.0-or-later"
-  revision 4
-  head "https://github.com/FFmpeg/FFmpeg.git"
 
   livecheck do
     url "https://ffmpeg.org/download.html"
-    regex(/href=.*?ffmpeg[._-]v?(\d+(?:\.\d+)+)\.t/i)
+    regex(/href=.*?ffmpeg[._-]v?(4(?:\.\d+)+)\.t/i)
   end
 
-  bottle do
-    sha256 arm64_big_sur: "549f899dadc339af7069355aa3a34591f536843efc431b2541693bc806ca5048"
-    sha256 big_sur:       "5275547e1b3dba43749ce3d91ddd92120ccc6d5f98090dd01dba2a2e615d8166"
-    sha256 catalina:      "5584b6d04f9d24a3bae17c6ebd640a7023e063b5c879b9a1cfb584dc51e6a527"
-    sha256 mojave:        "39af46559faf9aeb3aefa10c60aefd1563815518fdab86a1fa44ec11e886da1a"
-  end
+  keg_only :versioned_formula
 
   depends_on "nasm" => :build
   depends_on "pkg-config" => :build
@@ -32,8 +25,10 @@ class Ffmpeg < Formula
   depends_on "lame"
   depends_on "libass"
   depends_on "libbluray"
+  depends_on "librist"
   depends_on "libsoxr"
   depends_on "libvidstab"
+  depends_on "libvmaf"
   depends_on "libvorbis"
   depends_on "libvpx"
   depends_on "opencore-amr"
@@ -61,7 +56,10 @@ class Ffmpeg < Formula
 
   on_linux do
     depends_on "libxv"
+    depends_on "gcc" # because rubbernand is compiled with gcc
   end
+
+  fails_with gcc: "5"
 
   def install
     args = %W[
@@ -69,10 +67,10 @@ class Ffmpeg < Formula
       --enable-shared
       --enable-pthreads
       --enable-version3
-      --enable-avresample
       --cc=#{ENV.cc}
       --host-cflags=#{ENV.cflags}
       --host-ldflags=#{ENV.ldflags}
+      --enable-avresample
       --enable-ffplay
       --enable-gnutls
       --enable-gpl
@@ -82,12 +80,14 @@ class Ffmpeg < Formula
       --enable-libmp3lame
       --enable-libopus
       --enable-librav1e
+      --enable-librist
       --enable-librubberband
       --enable-libsnappy
       --enable-libsrt
       --enable-libtesseract
       --enable-libtheora
       --enable-libvidstab
+      --enable-libvmaf
       --enable-libvorbis
       --enable-libvpx
       --enable-libwebp
@@ -111,9 +111,14 @@ class Ffmpeg < Formula
       --disable-indev=jack
     ]
 
-    on_macos do
-      # Needs corefoundation, coremedia, corevideo
-      args << "--enable-videotoolbox"
+    # Needs corefoundation, coremedia, corevideo
+    args << "--enable-videotoolbox" if OS.mac?
+
+    # Replace hardcoded default VMAF model path
+    %w[doc/filters.texi libavfilter/vf_libvmaf.c].each do |f|
+      inreplace f, "/usr/local/share/model", HOMEBREW_PREFIX/"share/libvmaf/model"
+      # Since libvmaf v2.0.0, `.pkl` model files have been deprecated in favor of `.json` model files.
+      inreplace f, "vmaf_v0.6.1.pkl", "vmaf_v0.6.1.json"
     end
 
     system "./configure", *args
@@ -121,10 +126,9 @@ class Ffmpeg < Formula
 
     # Build and install additional FFmpeg tools
     system "make", "alltools"
-    bin.install Dir["tools/*"].select { |f| File.executable? f }
+    bin.install Dir["tools/*"].select { |f| File.executable?(f) && !File.directory?(f) }
 
-    # Fix for Non-executables that were installed to bin/
-    mv bin/"python", pkgshare/"python", force: true
+    pkgshare.install "tools/python"
   end
 
   test do
