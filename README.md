@@ -30,7 +30,6 @@ Usage:
  * Casks/xournal-plus-plus.rb  Xournal++ 1.1.1
  * Casks/xquartz.rb         XQuartz 2.8.5
  * Casks/zoom.rb            Zoom 5.14.2
- * Formula/a2ps.rb          a2ps 4.14
  * Formula/aria2.rb         Aria2 1.35.0
  * Formula/bash.rb          Bash 5.1
  * Formula/bash-completion@2.rb  Bash Compleion 2.11
@@ -44,8 +43,8 @@ Usage:
  * Formula/gnupg@2.2.rb     GnuPG 2.2.27
  * Formula/gnu-sed.rb       GNU sed 4.8
  * Formula/gnu-tar.rb       GNU tar 1.34
- * Formula/grep.rb          GNU Grep 3.6
  * Formula/gnu-which.rb     GNU which 2.21
+ * Formula/grep.rb          GNU Grep 3.6
  * Formula/htop.rb          htop 3.0.5
  * Formula/imagemagick@6.rb ImageMagick 6.9.12
  * Formula/iproute2mac.rb   iproute2mac 1.4.1
@@ -70,6 +69,7 @@ Usage:
  * Formula/telnet.rb        Telnet 69
  * Formula/tiger-vnc.rb     TigerVnc Viewer 1.11.0
  * Formula/tmux.rb          TMUX 3.3a
+ * Formula/vim.rb           VIM 8.2
  * Formula/vorbis-tools.rb  VorbisTools 1.4.2
  * Formula/wget.rb          Wget 1.21.3
  * Formula/yajl.rb          Yajl 2.1.0
