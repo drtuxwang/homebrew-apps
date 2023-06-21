@@ -17,7 +17,7 @@ cask "microsoft-edge" do
     strategy :header_match
   end
 
-  auto_updates true
+  auto_updates false
 
   pkg "MicrosoftEdge-#{version}.pkg",
       choices: [
