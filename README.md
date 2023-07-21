@@ -18,7 +18,7 @@ Usage:
   brew install --cask drtuxwang/apps/<formula>
 
  * Casks/firefox-esr.rb     Firefox ESR 102.10.0
- * Casks/gimp.rb            GIMP 2.10.22
+ * Casks/gimp.rb            GIMP 2.10.34
  * Casks/iterm2.rb          iTerm2 3.4.19
  * Casks/libreoffice.rb     LibreOffice 7.4.7.2
  * Casks/meld.rb            MELD 3.21.0
@@ -27,7 +27,7 @@ Usage:
  * Casks/robo-3t.rb         Robo3T 1.4.4
  * Casks/virtualbox.rb      VirtualBox 7.0.8
  * Casks/vlc.rb             VLC 3.0.18
- * Casks/xournal-plus-plus.rb  Xournal++ 1.1.1
+ * Casks/xournal-plus-plus.rb  Xournal++ 1.1.3
  * Casks/xquartz.rb         XQuartz 2.8.5
  * Casks/zoom.rb            Zoom 5.14.2
  * Formula/aria2.rb         Aria2 1.35.0
