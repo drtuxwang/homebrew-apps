@@ -31,13 +31,12 @@ Usage:
  * Casks/xquartz.rb         XQuartz 2.8.5
  * Casks/zoom.rb            Zoom 5.14.2
  * Formula/aria2.rb         Aria2 1.36.0
- * Formula/bash.rb          Bash 5.2
- * Formula/bash-completion@2.rb  Bash Compleion 2.11
+ * Formula/bash.rb          Bash 5.2.15
+ * Formula/bash-completion@2.rb  Bash Completion 2.11
  * Formula/bzip2.rb         bzip2 1.0.8
  * Formula/coreutils.rb     Coreutils 9.1
  * Formula/curl.rb          Curl 7.88.1
  * Formula/ddrescue.rb      Ddrescue 1.27
- * Formula/ffmpeg@4.rb      FFmpeg 4.4.1
  * Formula/ffmpeg@5.rb      FFmpeg 5.1.3
  * Formula/findutils.rb     GNU findutils 4.9.0
  * Formula/geeqie.rb        Geeqie 2.0.1
@@ -49,7 +48,6 @@ Usage:
  * Formula/htop.rb          htop 3.2.2
  * Formula/imagemagick@6.rb ImageMagick 6.9.12
  * Formula/iproute2mac.rb   iproute2mac 1.4.1
- * Formula/jpeginfo.rb      Jpeginfo 1.6.1
  * Formula/jq.rb            JQ 1.6
  * Formula/make.rb          GNU Make 4.3
  * Formula/node@16.rb       NodeJS 16.20.0
@@ -63,7 +61,6 @@ Usage:
  * Formula/pv.rb            PV 1.6.20
  * Formula/qemu.rb          QEMU 7.0.0
  * Formula/rsync.rb         Rsync 3.2.7
- * Formula/sevenzip.rb      7zip 22.0.1
  * Formula/socat.rb         Socat 1.7.4.4
  * Formula/sqlite.rb        Sqlite 3.40.1
  * Formula/tcl-tk.rb        tcl-tk 8.6.13
