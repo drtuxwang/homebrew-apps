@@ -1,28 +1,29 @@
 class Aria2 < Formula
   desc "Download with resuming and segmented downloading"
   homepage "https://aria2.github.io/"
-  url "https://github.com/aria2/aria2/releases/download/release-1.35.0/aria2-1.35.0.tar.xz"
-  sha256 "1e2b7fd08d6af228856e51c07173cfcf987528f1ac97e04c5af4a47642617dfd"
+  url "https://github.com/aria2/aria2/releases/download/release-1.36.0/aria2-1.36.0.tar.xz"
+  sha256 "58d1e7608c12404f0229a3d9a4953d0d00c18040504498b483305bcb3de907a5"
   license "GPL-2.0-or-later"
+  revision 2
 
   bottle do
-    sha256 cellar: :any, arm64_big_sur: "3db6c6a53e4bfd72eec10dc53179c424f2e72f1321c3f96b1b1b0e8740790af1"
-    sha256 cellar: :any, big_sur:       "05ea0971d6834d9dc50df6a6ca62978ce0f8bf324758225f9d3df091b60fc875"
-    sha256 cellar: :any, catalina:      "9cc5e04be8b0a58d1f2b60b8abfc636168edbf23e7018003c40f1dd6952aab0c"
-    sha256 cellar: :any, mojave:        "761836ac608eb0a59d4a6f6065860c0e809ce454692e0937d9d0d89ad47f3ce4"
-    sha256 cellar: :any, high_sierra:   "70cc7566a23c283015368f92dfeaa0d119e53cfc7c1b2276a73ff9f6167b529d"
-    sha256               x86_64_linux:  "eabc120a6c75a7efc537d6b6716d2a15b3e946c86ea69cebaa4e613309134b7c"
+    sha256 arm64_ventura:  "731a149db13b22d75a8b83822eabefabe3242208db9e683f5124cdd0d0c72411"
+    sha256 arm64_monterey: "1c89b3ecb3198cb66b0ee42205f237380115ee593c7af6c13d977f79c4c2ba9d"
+    sha256 arm64_big_sur:  "565453d34817d8a867db81957c96bbcc810e3fa3837926aa170ff11f03dfe001"
+    sha256 ventura:        "b81e1f4fd082425ded765ee045a5c398d3fb8dc2ed2419938ce4c6ae2f58e376"
+    sha256 monterey:       "ac0d8d8b627ff85c9aae7b56dc26cde0bae0c5641e4fe6b7381b9205b3e84b6a"
+    sha256 big_sur:        "43bdd51855a48f06ee8d8c891575ca7cf5329147c706a0c8f70db6c6f45680b3"
+    sha256 x86_64_linux:   "2a6786075c3cfb617e3691f193a7a8450b10b211022326b56d0aebc42f44d22f"
   end
 
   depends_on "pkg-config" => :build
+  depends_on "gettext"
   depends_on "libssh2"
+  depends_on "openssl@3"
+  depends_on "sqlite"
 
   uses_from_macos "libxml2"
   uses_from_macos "zlib"
-
-  on_linux do
-    depends_on "openssl@1.1"
-  end
 
   def install
     ENV.cxx11
@@ -36,11 +37,10 @@ class Aria2 < Formula
       --without-libnettle
       --without-libgcrypt
     ]
-    on_macos do
+    if OS.mac?
       args << "--with-appletls"
       args << "--without-openssl"
-    end
-    on_linux do
+    else
       args << "--without-appletls"
       args << "--with-openssl"
     end

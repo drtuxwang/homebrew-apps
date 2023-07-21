@@ -1,10 +1,10 @@
 class Htop < Formula
   desc "Improved top (interactive process viewer)"
   homepage "https://htop.dev/"
-  url "https://github.com/htop-dev/htop/archive/3.0.5.tar.gz"
-  sha256 "4c2629bd50895bd24082ba2f81f8c972348aa2298cc6edc6a21a7fa18b73990c"
+  url "https://github.com/htop-dev/htop/archive/3.2.2.tar.gz"
+  sha256 "3829c742a835a0426db41bb039d1b976420c21ec65e93b35cd9bfd2d57f44ac8"
   license "GPL-2.0-or-later"
-  head "https://github.com/htop-dev/htop.git"
+  head "https://github.com/htop-dev/htop.git", branch: "main"
 
   livecheck do
     url :stable
@@ -12,19 +12,19 @@ class Htop < Formula
   end
 
   bottle do
-    rebuild 1
-    sha256 cellar: :any,                 arm64_big_sur: "4dd5d67e6a0ce026916e082e834a9a3e8e8e01c4ac3a79a3de29119dd6cc8393"
-    sha256 cellar: :any,                 big_sur:       "21f7d036b92a40bb57dc28c64249f137efcbec7489190944d8c38f940c86df9f"
-    sha256 cellar: :any,                 catalina:      "0b9cb4738ad23eed5e2d24bb2bdc10e662c3b54ba7feb22d798fd9107ace5e21"
-    sha256 cellar: :any,                 mojave:        "7be858d053b14ab834cd1a1832beaf367501639d17c7a43c5cc0e563c025a4af"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:  "b3ecd7b41016d7c5deadd4255982b654c05bf46cc97792dbe38a0f71ff17d477"
+    sha256 cellar: :any,                 arm64_ventura:  "87daed2cfe0d478a778b09b5f29428f05b15ff081f0e70b9a2609cf479572721"
+    sha256 cellar: :any,                 arm64_monterey: "76872761874d2148c1da382b3922b25916f245ef1d05fa21f95dbc1baa5ff8d4"
+    sha256 cellar: :any,                 arm64_big_sur:  "52bdaef69f06d6808896cd8325ff6b2be3f96643660cc5475e1d45ba850a594d"
+    sha256 cellar: :any,                 ventura:        "38dcedb23adca849a1e1952c4a0d3249406b625f0e2094dfc47028be7df304b2"
+    sha256 cellar: :any,                 monterey:       "078c94ade63f91b01334d300f00489592361bdfef3600c0ca7f6ad3ce2032281"
+    sha256 cellar: :any,                 big_sur:        "7620c57b8abc846f264fb7906b96f3da07da7c6d2b43bde1579c29e04c77fc64"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:   "bb45255abf5f0cd1d886bb8ea68b26c60517771268cf18ac3cec875b572b1fc6"
   end
 
   depends_on "autoconf" => :build
   depends_on "automake" => :build
   depends_on "libtool" => :build
   depends_on "pkg-config" => :build
-  depends_on "python@3.9" => :build
   depends_on "ncurses" # enables mouse scroll
 
   on_linux do
@@ -34,7 +34,7 @@ class Htop < Formula
   def install
     system "./autogen.sh"
     args = ["--prefix=#{prefix}"]
-    on_linux { args << "--enable-sensors" }
+    args << "--enable-sensors" if OS.linux?
     system "./configure", *args
     system "make", "install"
   end

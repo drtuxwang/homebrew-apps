@@ -1,22 +1,25 @@
 class Grep < Formula
   desc "GNU grep, egrep and fgrep"
   homepage "https://www.gnu.org/software/grep/"
-  url "https://ftp.gnu.org/gnu/grep/grep-3.6.tar.xz"
-  mirror "https://ftpmirror.gnu.org/grep/grep-3.6.tar.xz"
-  sha256 "667e15e8afe189e93f9f21a7cd3a7b3f776202f417330b248c2ad4f997d9373e"
+  url "https://ftp.gnu.org/gnu/grep/grep-3.8.tar.xz"
+  mirror "https://ftpmirror.gnu.org/grep/grep-3.8.tar.xz"
+  sha256 "498d7cc1b4fb081904d87343febb73475cf771e424fb7e6141aff66013abc382"
   license "GPL-3.0-or-later"
+  revision 1
 
   bottle do
-    sha256 cellar: :any,                 arm64_big_sur: "a48ab26324b25a6033372f26490b09e7e0569f76a4b7f85bdd0aa9a3fc996537"
-    sha256 cellar: :any,                 big_sur:       "6ee2dac30a5250d7d218b6520392b4cb8e7a806149f900e11637e556e6a9237a"
-    sha256 cellar: :any,                 catalina:      "78c2b965ced34a99ac47d3058a3971b9696a6157215c82edd16562d6ec6fc689"
-    sha256 cellar: :any,                 mojave:        "80a62eaefb57437bcb3aeb1d8489b9bf062ec77184624249da27afc578be1315"
-    sha256 cellar: :any,                 high_sierra:   "ae3cfbe66d6391edd32153f9b02e3da1286482dd196a18da017903a0bd4e7cf7"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:  "d256494db01809327bcbe122bae1157c252084b2b42754388b675051918b2705"
+    sha256 cellar: :any,                 arm64_ventura:  "d2450448352fb2c389634cab3dec581882f6fc0f02a79489b4ba9c603b8f780b"
+    sha256 cellar: :any,                 arm64_monterey: "2a97d1431a8c367299b3ec1a62836136ad0474f78bd515f29b2210cc85591a66"
+    sha256 cellar: :any,                 arm64_big_sur:  "b23c8e00f85e4a10c1827619248a117ab2df3bd1503b5191c4467533fd299bec"
+    sha256 cellar: :any,                 ventura:        "d0d9b98da7b6eedb0d08d0b73e4dfd0627f5f3d19a3b850e248d33f6d13f039e"
+    sha256 cellar: :any,                 monterey:       "5b13dfd3339908dedfb233c3ba77a45fff7f55569b9252979349eb7fb0a45b5a"
+    sha256 cellar: :any,                 big_sur:        "f3b4b34263e59e4dfe427381ddecb820189f8336c464d97e5ab4e8b624d65484"
+    sha256 cellar: :any,                 catalina:       "bbb952d77089ccca022c170c295b48dea9d5afc90c3da65ee447adb04593c2c2"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:   "f771443ddfadac7158cd0bb2f4f1e682a2cc9b69e99c8ed0f77e41f546838067"
   end
 
   depends_on "pkg-config" => :build
-  depends_on "pcre"
+  depends_on "pcre2"
 
   def install
     args = %W[
@@ -28,14 +31,12 @@ class Grep < Formula
       --with-packager=Homebrew
     ]
 
-    on_macos do
-      args << "--program-prefix=g"
-    end
+    args << "--program-prefix=g" if OS.mac?
     system "./configure", *args
     system "make"
     system "make", "install"
 
-    on_macos do
+    if OS.mac?
       %w[grep egrep fgrep].each do |prog|
         (libexec/"gnubin").install_symlink bin/"g#{prog}" => prog
         (libexec/"gnuman/man1").install_symlink man1/"g#{prog}.1" => "#{prog}.1"
@@ -60,17 +61,14 @@ class Grep < Formula
     text_file = testpath/"file.txt"
     text_file.write "This line should be matched"
 
-    on_macos do
-      grepped = shell_output("#{bin}/ggrep match #{text_file}")
+    if OS.mac?
+      grepped = shell_output("#{bin}/ggrep -P match #{text_file}")
       assert_match "should be matched", grepped
 
-      grepped = shell_output("#{opt_libexec}/gnubin/grep match #{text_file}")
-      assert_match "should be matched", grepped
+      grepped = shell_output("#{opt_libexec}/gnubin/grep -P match #{text_file}")
+    else
+      grepped = shell_output("#{bin}/grep -P match #{text_file}")
     end
-
-    on_linux do
-      grepped = shell_output("#{bin}/grep match #{text_file}")
-      assert_match "should be matched", grepped
-    end
+    assert_match "should be matched", grepped
   end
 end

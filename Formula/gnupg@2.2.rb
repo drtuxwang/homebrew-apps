@@ -1,8 +1,8 @@
 class GnupgAT22 < Formula
   desc "GNU Pretty Good Privacy (PGP) package"
   homepage "https://gnupg.org/"
-  url "https://gnupg.org/ftp/gcrypt/gnupg/gnupg-2.2.27.tar.bz2"
-  sha256 "34e60009014ea16402069136e0a5f63d9b65f90096244975db5cea74b3d02399"
+  url "https://gnupg.org/ftp/gcrypt/gnupg/gnupg-2.2.40.tar.bz2"
+  sha256 "1164b29a75e8ab93ea15033300149e1872a7ef6bdda3d7c78229a735f8204c28"
   license "GPL-3.0-or-later"
 
   livecheck do
@@ -11,10 +11,14 @@ class GnupgAT22 < Formula
   end
 
   bottle do
-    sha256 arm64_big_sur: "6e52afe96b7c4acf7e83ffcc3904c62b5dee9948f6e18a664285e9b6ed24804f"
-    sha256 big_sur:       "9885e75474b25f2a7d2d1f66fb0ab305c98a8daa3848e41473f60a2f2ff34d3d"
-    sha256 catalina:      "aa2c9d472c019a2ad71a94cbc17753ec051685ace6a7d386fd76efa30c97ada0"
-    sha256 mojave:        "42ef4c3b4758a11c1dbfea5fe5bf47ba150b30f19468ba67882d5ccaf786a5ef"
+    sha256 arm64_ventura:  "29e32b17f03c4b318cdb346869fa1afb75cfce6a194f1fee12923707349aa913"
+    sha256 arm64_monterey: "2fc972a6690b60a0b7da63177cda161fd0eb97ee09fcbb9ed01909f704e506b5"
+    sha256 arm64_big_sur:  "5a393aaae5a88526982f86c300049bacadef7b66d0bb4d984ff0c2be8a5f1ae5"
+    sha256 ventura:        "3eaadc3d36c89b17e7a346ad3a3aee13d8c89f7bf21b4c7837b2acb5102551b2"
+    sha256 monterey:       "75731410dc3b38057fe2f62f5be5f6d7f1aef3cb17fbeeafb35ad9bdffa52a07"
+    sha256 big_sur:        "36c80b6ef3ce0c3ed6b5bfc65a8019effc0302ace77ced88a31cf463d755961a"
+    sha256 catalina:       "fef3446aee27be7a788e1047b442b3a084abd811471cf9ac94c82641f0703de7"
+    sha256 x86_64_linux:   "0bc244f7c6e2b63e13d34590910e564f2efccf350d9f75afee3c2362ab34d892"
   end
 
   keg_only :versioned_formula
@@ -34,6 +38,14 @@ class GnupgAT22 < Formula
 
   on_linux do
     depends_on "libidn"
+  end
+
+  # Fixes a build failure without ldap.
+  # Committed upstream, will be in the next release.
+  # https://dev.gnupg.org/T6239
+  patch do
+    url "https://dev.gnupg.org/rGa5c3821664886ffffbe6a83aac088a6e0088a607?diff=1"
+    sha256 "41c633362f599fdc5a3d3b49f70831854ac881273aafbbc568ae4e87f4121782"
   end
 
   def install

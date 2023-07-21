@@ -1,8 +1,11 @@
 class Curl < Formula
   desc "Get a file from an HTTP, HTTPS or FTP server"
   homepage "https://curl.se"
-  url "https://curl.se/download/curl-7.77.0.tar.bz2"
-  sha256 "6c0c28868cb82593859fc43b9c8fdb769314c855c05cf1b56b023acf855df8ea"
+  url "https://curl.se/download/curl-7.88.1.tar.bz2"
+  mirror "https://github.com/curl/curl/releases/download/curl-7_88_0/curl-7.88.1.tar.bz2"
+  mirror "http://fresh-center.net/linux/www/curl-7.88.1.tar.bz2"
+  mirror "http://fresh-center.net/linux/www/legacy/curl-7.88.1.tar.bz2"
+  sha256 "8224b45cce12abde039c12dc0711b7ea85b104b9ad534d6e4c5b4e188a61c907"
   license "curl"
 
   livecheck do
@@ -11,16 +14,17 @@ class Curl < Formula
   end
 
   bottle do
-    rebuild 1
-    sha256 cellar: :any,                 arm64_big_sur: "36940ec937de41aefd30d264885e909ac4621f89af69e708ff28e0e6e80b18d4"
-    sha256 cellar: :any,                 big_sur:       "2fea808dd9f8dc2a9bac45870be0a14f2f81243652d2e46d319e36e865543367"
-    sha256 cellar: :any,                 catalina:      "4a549f63ab3fa72db7efa9d2a9a9f886fa093546b93b548346216feb878f5268"
-    sha256 cellar: :any,                 mojave:        "9313777bd2c21e174542c9dd66ee80eb6f4d8f63dae96b5ba4202b957f404b8a"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:  "830bbfdf79183e1b7eef6009c0d1aef0f048859839ec8c19367745bdc2a2ba52"
+    sha256 cellar: :any,                 arm64_ventura:  "08848696ddff3fba97be392f5d2bf9943d8b353625f48eb384180803dd0afeb5"
+    sha256 cellar: :any,                 arm64_monterey: "2e798ccc193765d4493fa3ee9cc7e168817557b884e74c43869eeff26299769b"
+    sha256 cellar: :any,                 arm64_big_sur:  "1e52651a966cdf432d778ab89795a00dfd71d7969ea9477de6b7f080c379f3c4"
+    sha256 cellar: :any,                 ventura:        "72d1772795ffdb13b8d77243b1c42dd9b6367ed47cc25edb2bf7c12b684585d3"
+    sha256 cellar: :any,                 monterey:       "804a665b827fb444ba98d34b10de4fc2c771de682878a397d6a2d2f18af3ca06"
+    sha256 cellar: :any,                 big_sur:        "faddeff20a1d854e5b9a78ea5c7e068db9dd05f3b6f86fed295199bc204fb7a8"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:   "f915f992603842a7f608881e78d696fb9fd288e7fcf0f9f9c2b76fb72c2508e4"
   end
 
   head do
-    url "https://github.com/curl/curl.git"
+    url "https://github.com/curl/curl.git", branch: "master"
 
     depends_on "autoconf" => :build
     depends_on "automake" => :build
@@ -32,8 +36,8 @@ class Curl < Formula
   depends_on "pkg-config" => :build
   depends_on "brotli"
   depends_on "libidn2"
+  depends_on "libnghttp2"
   depends_on "libssh2"
-  depends_on "nghttp2"
   depends_on "openldap"
   depends_on "openssl@1.1"
   depends_on "rtmpdump"
@@ -56,25 +60,22 @@ class Curl < Formula
       --with-ca-fallback
       --with-secure-transport
       --with-default-ssl-backend=openssl
-      --with-gssapi
       --with-libidn2
       --with-librtmp
       --with-libssh2
       --without-libpsl
     ]
 
-    on_macos do
-      args << "--with-gssapi"
-    end
-
-    on_linux do
-      args << "--with-gssapi=#{Formula["krb5"].opt_prefix}"
+    args << if OS.mac?
+      "--with-gssapi"
+    else
+      "--with-gssapi=#{Formula["krb5"].opt_prefix}"
     end
 
     system "./configure", *args
     system "make", "install"
     system "make", "install", "-C", "scripts"
-    libexec.install "lib/mk-ca-bundle.pl"
+    libexec.install "scripts/mk-ca-bundle.pl"
   end
 
   test do

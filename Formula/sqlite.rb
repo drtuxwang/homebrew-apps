@@ -1,21 +1,27 @@
 class Sqlite < Formula
   desc "Command-line interface for SQLite"
-  homepage "https://sqlite.org/"
-  url "https://sqlite.org/2021/sqlite-autoconf-3340100.tar.gz"
-  version "3.34.1"
-  sha256 "2a3bca581117b3b88e5361d0ef3803ba6d8da604b1c1a47d902ef785c1b53e89"
+  homepage "https://sqlite.org/index.html"
+  url "https://sqlite.org/2022/sqlite-autoconf-3400100.tar.gz"
+  version "3.40.1"
+  sha256 "2c5dea207fa508d765af1ef620b637dcb06572afa6f01f0815bd5bbf864b33d9"
   license "blessing"
 
   livecheck do
-    url "https://sqlite.org/news.html"
-    regex(%r{v?(\d+(?:\.\d+)+)</h3>}i)
+    url :homepage
+    regex(%r{href=.*?releaselog/v?(\d+(?:[._]\d+)+)\.html}i)
+    strategy :page_match do |page, regex|
+      page.scan(regex).map { |match| match&.first&.gsub("_", ".") }
+    end
   end
 
   bottle do
-    sha256 cellar: :any, arm64_big_sur: "a44af603af9ebc26784983343b7659f4f767a4a270b34ceb5fd9527901d8f79a"
-    sha256 cellar: :any, big_sur:       "a536d0d39e6c2410249f6df211062a515063f15528032d18cc2635cc1db4e042"
-    sha256 cellar: :any, catalina:      "63b13860a58b273821c8af6bcd09ed1d38aa9c95f51192257b29f7512fb38859"
-    sha256 cellar: :any, mojave:        "345f9a6b2b4258a1b6791047c1afedec4dd5b47b717ca7af1f5c772be7b3e275"
+    sha256 cellar: :any,                 arm64_ventura:  "e19a160e1012ed0d58f0e1f631d6954c2bb6feb3cf9f8e9417d6f8955b81236d"
+    sha256 cellar: :any,                 arm64_monterey: "45f18a632fd523c325bedda31a17ec8a1e577da0c4350b0342106ce360a925a5"
+    sha256 cellar: :any,                 arm64_big_sur:  "1dce645628978038d4615669728089f9e22259a8c461f5d81672b741189f1f29"
+    sha256 cellar: :any,                 ventura:        "d3092d3c942b50278f82451449d2adc3d1dc1bd724e206ae49dd0def6eb6386d"
+    sha256 cellar: :any,                 monterey:       "ebdcd895a537933c8ae0111a96b02aa7e2ac8f8c991f0c3e4d9ec250619a29e5"
+    sha256 cellar: :any,                 big_sur:        "c2b7d4f849d7af7e8be3c738e9670842c9c6b25053fd19a90ef8264b2a257158"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:   "8d1baebd808a5cdb47c3fedbefd4de5cf7983700c41191432f3a9bed4885bb06"
   end
 
   keg_only :provided_by_macos

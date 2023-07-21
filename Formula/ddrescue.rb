@@ -1,20 +1,19 @@
 class Ddrescue < Formula
   desc "GNU data recovery tool"
   homepage "https://www.gnu.org/software/ddrescue/ddrescue.html"
-  url "https://ftp.gnu.org/gnu/ddrescue/ddrescue-1.25.tar.lz"
-  mirror "https://ftpmirror.gnu.org/ddrescue/ddrescue-1.25.tar.lz"
-  sha256 "ce538ebd26a09f45da67d3ad3f7431932428231ceec7a2d255f716fa231a1063"
-  license "GPL-2.0"
+  url "https://ftp.gnu.org/gnu/ddrescue/ddrescue-1.27.tar.lz"
+  mirror "https://ftpmirror.gnu.org/ddrescue/ddrescue-1.27.tar.lz"
+  sha256 "38c80c98c5a44f15e53663e4510097fd68d6ec20758efdf3a925037c183232eb"
+  license "GPL-2.0-or-later"
 
   bottle do
-    sha256 cellar: :any_skip_relocation, arm64_monterey: "d9b1ace4f31c45defdbebb920946d10b0a88dffd9168d70074878a6052bdeb85"
-    sha256 cellar: :any_skip_relocation, arm64_big_sur:  "9b5da0044c6ad27c1d0abf8aa373f67d37fe1a1ac6dcd90194f937cf7b4dc005"
-    sha256 cellar: :any_skip_relocation, monterey:       "80612db48e7354cb9f95d3da871725eccbcc4bc603ba7d532655a90d7ab1437e"
-    sha256 cellar: :any_skip_relocation, big_sur:        "f1ebbe84c3f44fd8b7d18e2889562a65c8043e3b4c8c4f96164cc42b3a096187"
-    sha256 cellar: :any_skip_relocation, catalina:       "517175b22fc4cc660059801b497484ffd7096ade308222c752e758f5036f570a"
-    sha256 cellar: :any_skip_relocation, mojave:         "73234513fd966432d0cd11f907614b350c6943b3d2c82a7d1ed487fa93f948ca"
-    sha256 cellar: :any_skip_relocation, high_sierra:    "a4090204da6b3ef1ff36ff144dd7737e42424e7adf59519becd76ca134cbc08c"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:   "7c12145d650e699749b0152a50925cf94fad2ea02d13e0e39520b5497fc251e5"
+    sha256 cellar: :any_skip_relocation, arm64_ventura:  "37b18de8baf95b6bb38e322de59f191e2c50bb0bb0d16c8632e7da177bdad91c"
+    sha256 cellar: :any_skip_relocation, arm64_monterey: "22b84e87b78d58f79c6178b6cc737f22aeb0a92cbe353c1cc156e201e093a242"
+    sha256 cellar: :any_skip_relocation, arm64_big_sur:  "e8802e7d817f7362a6b17f8eb491b2eb67bd02b4f6234400eb399765f52fa985"
+    sha256 cellar: :any_skip_relocation, ventura:        "dfd7d7ccc834e7a36aea13c9d3c9f16c0623acdae03e9d2c9a12ec1cb8b61baf"
+    sha256 cellar: :any_skip_relocation, monterey:       "219b2c7be21bd51e52223a3810d820c5d0faf51d0956003bce0181020c7bf98c"
+    sha256 cellar: :any_skip_relocation, big_sur:        "94f75c1743efdf6e58d538c8f2ebf324eda5c8e3b23ba5551df89d46bab11c55"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:   "44cba29aabb794d58f2f3d553f39866dec2821057a7a683ce892ddbb9325c721"
   end
 
   def install

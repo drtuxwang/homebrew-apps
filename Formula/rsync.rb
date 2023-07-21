@@ -1,11 +1,12 @@
 class Rsync < Formula
   desc "Utility that provides fast incremental file transfer"
   homepage "https://rsync.samba.org/"
-  url "https://rsync.samba.org/ftp/rsync/rsync-3.2.3.tar.gz"
-  mirror "https://mirrors.kernel.org/gentoo/distfiles/rsync-3.2.3.tar.gz"
-  mirror "https://www.mirrorservice.org/sites/rsync.samba.org/rsync-3.2.3.tar.gz"
-  sha256 "becc3c504ceea499f4167a260040ccf4d9f2ef9499ad5683c179a697146ce50e"
+  url "https://rsync.samba.org/ftp/rsync/rsync-3.2.7.tar.gz"
+  mirror "https://mirrors.kernel.org/gentoo/distfiles/rsync-3.2.7.tar.gz"
+  mirror "https://www.mirrorservice.org/sites/rsync.samba.org/rsync-3.2.7.tar.gz"
+  sha256 "4e7d9d3f6ed10878c58c5fb724a67dacf4b6aac7340b13e488fb2dc41346f2bb"
   license "GPL-3.0-or-later"
+  revision 1
 
   livecheck do
     url "https://rsync.samba.org/ftp/rsync/?C=M&O=D"
@@ -13,18 +14,19 @@ class Rsync < Formula
   end
 
   bottle do
-    sha256 cellar: :any,                 arm64_monterey: "821901907a9a035c3b352cf840ceaf358910d47b7ca5642e19a8ff89e5e2aaf2"
-    sha256 cellar: :any,                 arm64_big_sur:  "05437fe41f5c05db284cb9b70c14ad47071976d3720d2148b62f83a2bfb0391a"
-    sha256 cellar: :any,                 monterey:       "3aa536da0c3756b25ccee8fbc29840b679d043adeeefa8dd75fc2c16d25f01c8"
-    sha256 cellar: :any,                 big_sur:        "def7f5cd96f4abc05ef344a16c084c11879dca54b91ea5dd56a6de63298cc1dd"
-    sha256 cellar: :any,                 catalina:       "fd92045e16b9b83ab6c281a1e658e27731ef9af53fcb6bb7ce6b9533851e728e"
-    sha256 cellar: :any,                 mojave:         "1be1e9754c4f4a4b043aece33299d90f50d01274682f63c29eca7d9bcb8a2090"
-    sha256 cellar: :any,                 high_sierra:    "5cf9c6e0014687c4abb4044e7f5e12d5d453b81c5dbadd472438b4131c655a1f"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:   "c170f9fa6e10c5626434cc7a2ec17c1d0de7f3f16b3ffea4ce8bc27cec58208a"
+    sha256 cellar: :any,                 arm64_ventura:  "071de5ab73fa5f455d1861ac33b5f618f7672f53442ccb50a8c3af55312f58e0"
+    sha256 cellar: :any,                 arm64_monterey: "01361cf8e78ce7c629d97b6474ad417632010e099b6aa881fac5bf39786a973c"
+    sha256 cellar: :any,                 arm64_big_sur:  "e7e106b801d5fd324ae7fc99384141cad1a11b031dbb3a18825747aa1f6e1313"
+    sha256 cellar: :any,                 ventura:        "c1d2161f8ca6d894e3f32f1d1cb54babd5bed9a8e078a08a9c37f776a4bc06db"
+    sha256 cellar: :any,                 monterey:       "63d05e0e6ecb5161b9e29704db7607d00e97898e143bca3eabba5c146b776aaf"
+    sha256 cellar: :any,                 big_sur:        "a6262a2ac03fa34a43bd0e187a54a1e89cf523dd03c7fe87a6fde5d1599860ee"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:   "81689deca3e1695f3976b576c54a38348632c43ce8453d6d1b318d8a087f2827"
   end
 
+  depends_on "autoconf" => :build
+  depends_on "automake" => :build
   depends_on "lz4"
-  depends_on "openssl@1.1"
+  depends_on "openssl@3"
   depends_on "popt"
   depends_on "xxhash"
   depends_on "zstd"
@@ -32,29 +34,23 @@ class Rsync < Formula
   uses_from_macos "zlib"
 
   # hfs-compression.diff has been marked by upstream as broken since 3.1.3
-  # and has not been reported fixed as of 3.2.3
+  # and has not been reported fixed as of 3.2.7
   patch do
-    url "https://download.samba.org/pub/rsync/src/rsync-patches-3.2.3.tar.gz"
-    mirror "https://www.mirrorservice.org/sites/rsync.samba.org/rsync-patches-3.2.3.tar.gz"
-    sha256 "de6645b46967bd701b7d6f3e29cccb19d2b46a6fa2d26a9db165847dca0e42f2"
+    url "https://download.samba.org/pub/rsync/src/rsync-patches-3.2.7.tar.gz"
+    mirror "https://www.mirrorservice.org/sites/rsync.samba.org/rsync-patches-3.2.7.tar.gz"
+    sha256 "e7e5e9ea0b6dd7639c7a5c6f49a1d06be20d449d59f60ba59b238e1aa79b13f0"
     apply "patches/fileflags.diff"
   end
 
   def install
     args = %W[
-      --disable-debug
-      --prefix=#{prefix}
       --with-rsyncd-conf=#{etc}/rsyncd.conf
       --with-included-popt=no
       --with-included-zlib=no
       --enable-ipv6
     ]
 
-    # SIMD code throws ICE or is outright unsupported due to lack of support for
-    # function multiversioning on older versions of macOS
-    args << "--disable-simd" if MacOS.version < :catalina
-
-    system "./configure", *args
+    system "./configure", *std_configure_args, *args
     system "make"
     system "make", "install"
   end
