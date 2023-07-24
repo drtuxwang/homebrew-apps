@@ -25,7 +25,7 @@ Usage:
  * Casks/microsoft-edge.rb  Microsoft Edge 113.0.1774.57
  * Casks/microsoft-teams.rb Microsoft Teams 1.6.00.7354
  * Casks/robo-3t.rb         Robo3T 1.4.4
- * Casks/virtualbox.rb      VirtualBox 7.0.10
+ * Casks/virtualbox.rb      VirtualBox 7.0.8
  * Casks/vlc.rb             VLC 3.0.18
  * Casks/xournal-plus-plus.rb  Xournal++ 1.1.3
  * Casks/xquartz.rb         XQuartz 2.8.5
