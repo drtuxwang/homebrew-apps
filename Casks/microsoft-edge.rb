@@ -1,25 +1,31 @@
 cask "microsoft-edge" do
-  folder = on_arch_conditional arm:   "5a7ac9fb-6410-4438-a5d1-24a16ab24157",
-                               intel: "a1e41e4c-94c6-42a7-b0fb-ace84443b08a"
   linkid = on_arch_conditional arm: "2093504", intel: "2069148"
 
-  version "113.0.1774.57"
-  sha256 arm:   "08a84d425db829e378b558dcc0a3df41a60aa7b25ca999d8afd5ebb3c86382e5",
-         intel: "bb4cc1df95efbcd52dcec78652204ca115bc1d422f30664775fbc44872c1a191"
+  on_arm do
+    version "114.0.1823.82,c16d0e8a-caf1-41f8-aa03-7a608204add7"
+    sha256 "300f3ad399aa9c34cc436e724a8cbf65b813815acc2c6da649a53fb24243ac20"
+  end
+  on_intel do
+    version "114.0.1823.82,bd6ac130-9452-4f40-a2ce-fd34ea2c8a62"
+    sha256 "bf941cdc6b2dedaf746f3598639e2ddabef12120fdbabc6e0a5a326a6b79b6ef"
+  end
 
-  url "https://msedge.sf.dl.delivery.mp.microsoft.com/filestreamingservice/files/#{folder}/MicrosoftEdge-#{version}.pkg"
+  url "https://msedge.sf.dl.delivery.mp.microsoft.com/filestreamingservice/files/#{version.csv.second}/MicrosoftEdge-#{version.csv.first}.pkg"
   name "Microsoft Edge"
   desc "Web browser"
   homepage "https://www.microsoft.com/edge"
 
   livecheck do
     url "https://go.microsoft.com/fwlink/?linkid=#{linkid}"
-    strategy :header_match
+    regex(%r{/([^/]+)/MicrosoftEdge[._-]v?(\d+(?:\.\d+)+)\.pkg}i)
+    strategy :header_match do |headers, regex|
+      headers["location"].scan(regex).map { |match| "#{match[1]},#{match[0]}" }
+    end
   end
 
-  auto_updates false
+  auto_updates true
 
-  pkg "MicrosoftEdge-#{version}.pkg",
+  pkg "MicrosoftEdge-#{version.csv.first}.pkg",
       choices: [
         {
           "choiceIdentifier" => "com.microsoft.package.Microsoft_AutoUpdate.app", # Office16_all_autoupdate.pkg
