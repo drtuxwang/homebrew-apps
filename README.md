@@ -59,7 +59,7 @@ Usage:
  * Formula/par2.rb          PAR2 0.8.1
  * Formula/postgresql@11.rb Postgresql 11.19
  * Formula/pv.rb            PV 1.6.20
- * Formula/qemu.rb          QEMU 7.0.0
+ * Formula/qemu.rb          QEMU 7.2.0
  * Formula/rsync.rb         Rsync 3.2.7
  * Formula/socat.rb         Socat 1.7.4.4
  * Formula/sqlite.rb        Sqlite 3.40.1

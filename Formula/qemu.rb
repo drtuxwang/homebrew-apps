@@ -1,29 +1,19 @@
 class Qemu < Formula
   desc "Emulator for x86 and PowerPC"
   homepage "https://www.qemu.org/"
+  url "https://download.qemu.org/qemu-7.2.0.tar.xz"
+  sha256 "5b49ce2687744dad494ae90a898c52204a3406e84d072482a1e1be854eeb2157"
   license "GPL-2.0-only"
-  revision 2
   head "https://git.qemu.org/git/qemu.git", branch: "master"
 
-  stable do
-    url "https://download.qemu.org/qemu-7.0.0.tar.xz"
-    sha256 "f6b375c7951f728402798b0baabb2d86478ca53d44cedbefabbe1c46bf46f839"
-
-    # Fixes RDTSCP not being exposed to hosts
-    # See https://gitlab.com/qemu-project/qemu/-/issues/1011
-    patch do
-      url "https://gitlab.com/qemu-project/qemu/-/commit/d8cf2c29cc1077cd8f8ab0580b285bff92f09d1c.diff"
-      sha256 "b7c0db81e136fb3b9692e56f4c95abbcbd196dc0b7feb517241dda20d9ec3166"
-    end
-  end
-
   bottle do
-    sha256 arm64_monterey: "bf9391d255ad137ddef0d1c27a1e8617736ce92a67564f2e1bb005737a5665ef"
-    sha256 arm64_big_sur:  "9c50ffc363dac4b232051be9fa264e89b9c0a1914a508b125c4d73dda4a72aef"
-    sha256 monterey:       "278eed235e3bfc5e52c505ac8da6956c32c5c2e98bb8ad3ad5e14b2b64b63610"
-    sha256 big_sur:        "07dac521ceb5f83ae24d0c3d94928ab0433b2bedec31b0272f31e67c496c034b"
-    sha256 catalina:       "c13348847d51bdfd9a2704c1f4485aa3c076b6cf828ad5c7761b76035495e340"
-    sha256 x86_64_linux:   "83034c38dff93a45b8dd004556a2d6b9479b88d952d4bcea4dff217d0794b7e9"
+    sha256 arm64_ventura:  "fa987f9dc770812c58333c910cb0f5c4e730d513a1568cc4d6a215dfa3ac82d1"
+    sha256 arm64_monterey: "62bea721ff6fa3ee15ed53ee8215fea42b2cd07e8fb39b77ce8e39f30287576f"
+    sha256 arm64_big_sur:  "9b2c3aa359719358370901d00a1b9323459ec9af3add371d212fd98071418e6b"
+    sha256 ventura:        "b4ae1b25edf4276936ad69d9399cf117a28cd49e212b0467c4cb6c22a7074f86"
+    sha256 monterey:       "6a32684edc7ed07358a8b9b602198d69a45902ec7c72230caf5c9b9b8b5e7f10"
+    sha256 big_sur:        "c327dffc16102993ab7fb81a2bbad0035af6af3e550a4095db72fcb8aff56ae8"
+    sha256 x86_64_linux:   "05ece9acbbb003a7e8035f18f5193ae7c9caffacd60a744eac629de4a545aea4"
   end
 
   depends_on "libtool" => :build
@@ -31,6 +21,7 @@ class Qemu < Formula
   depends_on "ninja" => :build
   depends_on "pkg-config" => :build
 
+  depends_on "capstone"
   depends_on "glib"
   depends_on "gnutls"
   depends_on "jpeg-turbo"
@@ -48,7 +39,6 @@ class Qemu < Formula
 
   on_linux do
     depends_on "attr"
-    depends_on "gcc"
     depends_on "gtk+3"
     depends_on "libcap-ng"
   end
@@ -70,18 +60,16 @@ class Qemu < Formula
       --host-cc=#{ENV.cc}
       --disable-bsd-user
       --disable-guest-agent
+      --enable-slirp
+      --enable-capstone
       --enable-curses
       --enable-libssh
-      --enable-slirp=system
       --enable-vde
       --enable-virtfs
       --enable-zstd
       --extra-cflags=-DNCURSES_WIDECHAR=1
       --disable-sdl
     ]
-
-    # Please remove this line when the CI gets updated to a recent version of Ubuntu(kernel version >= 4.9)
-    args << "--disable-linux-user"
 
     # Sharing Samba directories in QEMU requires the samba.org smbd which is
     # incompatible with the macOS-provided version. This will lead to
