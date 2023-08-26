@@ -2,14 +2,14 @@ cask "libreoffice" do
   arch arm: "aarch64", intel: "x86-64"
   folder = on_arch_conditional arm: "aarch64", intel: "x86_64"
 
-  version "7.4.7.2"
-  sha256 arm:   "d02513c6a58f35cb0da6880f76be3f4b3a620daaa9ce5c244d6efc40ed26a273",
-         intel: "c8ae0cbaa043b30718a4ac0ca93369e887fe6a46bb3618cea054bffaafd8b8e2"
+  version "7.5.5"
+  sha256 arm:   "75a7d64aa5d08b56c9d9c1c32484b9aff07268c1642cc01a03e45b7690500745",
+         intel: "4aad9f08ef7a4524b85fc46b3301fdf4f5ab8ab63dd01d01c297f96ff474804a"
 
-  url "https://downloadarchive.documentfoundation.org/libreoffice/old/#{version}/mac/#{folder}/LibreOffice_#{version}_MacOS_#{arch}.dmg",
+  url "https://download.documentfoundation.org/libreoffice/stable/#{version}/mac/#{folder}/LibreOffice_#{version}_MacOS_#{arch}.dmg",
       verified: "download.documentfoundation.org/libreoffice/stable/"
   name "LibreOffice"
-  desc "Office suite"
+  desc "Free cross-platform office suite, fresh version"
   homepage "https://www.libreoffice.org/"
 
   livecheck do
@@ -18,11 +18,10 @@ cask "libreoffice" do
   end
 
   conflicts_with cask: "homebrew/cask-versions/libreoffice-still"
-  depends_on macos: ">= :sierra"
+  depends_on macos: ">= :mojave"
 
   app "LibreOffice.app"
   binary "#{appdir}/LibreOffice.app/Contents/MacOS/gengal"
-  binary "#{appdir}/LibreOffice.app/Contents/MacOS/regmerge"
   binary "#{appdir}/LibreOffice.app/Contents/MacOS/regview"
   binary "#{appdir}/LibreOffice.app/Contents/MacOS/senddoc"
   binary "#{appdir}/LibreOffice.app/Contents/MacOS/uno"
