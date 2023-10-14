@@ -17,19 +17,19 @@ Usage:
   brew install drtuxwang/apps/<formula>
   brew install --cask drtuxwang/apps/<formula>
 
- * Casks/firefox-esr.rb     Firefox ESR 102.10.0
+ * Casks/firefox-esr.rb     Firefox ESR 115.3.1
  * Casks/gimp.rb            GIMP 2.10.34
- * Casks/iterm2.rb          iTerm2 3.4.19
- * Casks/libreoffice-still.rb  LibreOffice 7.5.6
+ * Casks/iterm2.rb          iTerm2 3.4.21
+ * Casks/libreoffice-still.rb  LibreOffice Stable 7.5.6
  * Casks/meld.rb            MELD 3.21.0
- * Casks/microsoft-edge.rb  Microsoft Edge 114.0.1823.82
+ * Casks/microsoft-edge.rb  Microsoft Edge 117.0.2045.55
  * Casks/microsoft-teams.rb Microsoft Teams 1.6.00.7354
  * Casks/robo-3t.rb         Robo3T 1.4.4
  * Casks/virtualbox.rb      VirtualBox 7.0.8
  * Casks/vlc.rb             VLC 3.0.18
  * Casks/xournal-plus-plus.rb  Xournal++ 1.1.3
  * Casks/xquartz.rb         XQuartz 2.8.5
- * Casks/zoom.rb            Zoom 5.14.2
+ * Casks/zoom.rb            Zoom 5.16.2
  * Formula/aria2.rb         Aria2 1.36.0
  * Formula/bash.rb          Bash 5.2.15
  * Formula/bash-completion@2.rb  Bash Completion 2.11

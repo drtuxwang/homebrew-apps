@@ -1,32 +1,32 @@
 cask "zoom" do
   arch arm: "arm64/"
 
-  version "5.14.2.17213"
-  sha256 arm:   "4c5dee63d14bbeed4eef8556b2b3d3d62ed09dcd3b3f21fe53e09464c2934e38",
-         intel: "7371f77d493e072888cae8fc5ff80e33a0c57c4589c42e4280ccf158afc2053c"
+  version "5.16.2.23409"
+  sha256 arm:   "314931123e06e8c0825dcab216ab82ac7867bbeb15c391f81d293eb0fe47fa06",
+         intel: "9e247f59b32aed3d4f04224c2b50dd85b15ce1e24382e6fc2c8bf75f88bc4b97"
 
-  url "https://cdn.zoom.us/prod/#{version}/#{arch}Zoom.pkg"
-  name "Zoom.us"
+  url "https://cdn.zoom.us/prod/#{version}/#{arch}zoomusInstallerFull.pkg"
+  name "Zoom"
   desc "Video communication and virtual meeting platform"
   homepage "https://www.zoom.us/"
 
   livecheck do
-    url "https://zoom.us/client/latest/Zoom.pkg"
+    url "https://www.zoom.us/client/latest/zoomusInstallerFull.pkg"
     strategy :header_match
   end
 
   auto_updates true
   conflicts_with cask: "zoom-for-it-admins"
 
-  pkg "Zoom.pkg"
+  pkg "zoomusInstallerFull.pkg"
 
   postflight do
     # Description: Ensure console variant of postinstall is non-interactive.
     # This is because `open "$APP_PATH"&` is called from the postinstall
     # script of the package and we don't want any user intervention there.
     retries ||= 3
-    ohai "The Zoom package postinstall script launches the Zoom app" unless retries < 3
-    ohai "Attempting to close zoom.us.app to avoid unwanted user intervention" unless retries < 3
+    ohai "The Zoom package postinstall script launches the Zoom app" if retries >= 3
+    ohai "Attempting to close zoom.us.app to avoid unwanted user intervention" if retries >= 3
     return unless system_command "/usr/bin/pkill", args: ["-f", "/Applications/zoom.us.app"]
 
   rescue RuntimeError
