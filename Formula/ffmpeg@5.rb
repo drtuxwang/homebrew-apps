@@ -1,8 +1,8 @@
 class FfmpegAT5 < Formula
   desc "Play, record, convert, and stream audio and video"
   homepage "https://ffmpeg.org/"
-  url "https://ffmpeg.org/releases/ffmpeg-5.1.3.tar.xz"
-  sha256 "1b113593ff907293be7aed95acdda5e785dd73616d7d4ec90a0f6adbc5a0312e"
+  url "https://ffmpeg.org/releases/ffmpeg-5.1.4.tar.xz"
+  sha256 "54383bb890a1cd62580e9f1eaa8081203196ed53bde9e98fb6b0004423f49063"
   # None of these parts are used by default, you have to explicitly pass `--enable-gpl`
   # to configure to activate them. In this case, FFmpeg's license changes to GPL v2+.
   license "GPL-2.0-or-later"
@@ -13,13 +13,13 @@ class FfmpegAT5 < Formula
   end
 
   bottle do
-    sha256 arm64_ventura:  "329c15e7625f9eb2aa4d9db566d9d8093f038579b3ff49a01b2dad9adc46366f"
-    sha256 arm64_monterey: "051e1a264e04c62639301b7e411cb7667719b85eaf20dcff19485c3a7c58b44e"
-    sha256 arm64_big_sur:  "de95af561325d22b808f300a4295f6b7188c18607983b0cf97e55e046c75dddf"
-    sha256 ventura:        "2343de6ebda27cefff6c3e056c57ea2d8ff4fea6e7075437d53fcfd52bc7cadc"
-    sha256 monterey:       "b6654f40e5ebc5f284f42d54785463ebb1fb9faef2aa025e9474dd4d9e5b5c2f"
-    sha256 big_sur:        "b8fb51b5a4b50d4791d941f1babc79efc83134fb7fce91ee33d467d3abc6a87b"
-    sha256 x86_64_linux:   "a0d7522661aee9a9812c76ad066e4e4ba330be7dbddc8f5bd63d1f9f92a8a5c9"
+    sha256 arm64_sonoma:   "57e663e9b06001e33e5449bd108137fb041d1be328a5dc5a556cdbf47642c8e5"
+    sha256 arm64_ventura:  "582db04e3d64f784c092b1e2ed31349b800d5a2e318057622fbffb9141b67868"
+    sha256 arm64_monterey: "663bc7fb94b641cc97f7efe5fa41965f3998fb35c089f4943d20a538e2e0936d"
+    sha256 sonoma:         "62394f0513c42fbe43e007eabe23a099d69a93615119201c619f0edb5a38f6a4"
+    sha256 ventura:        "e9e6db0e65d1221318f73be87c758b5b5bc7d5e6ea474cef281ba2f89169ff6b"
+    sha256 monterey:       "b9ae2a5cfa48a2c35529b9035eab2a19bd93a862929b1fd1ba25fc74d515f97a"
+    sha256 x86_64_linux:   "3929834b2ff03980e9cadb7d055e73742d84d8d2422c112c8d1f3ebfc07128aa"
   end
 
   keg_only :versioned_formula
@@ -77,6 +77,9 @@ class FfmpegAT5 < Formula
   fails_with gcc: "5"
 
   def install
+    # The new linker leads to duplicate symbol issue https://github.com/homebrew-ffmpeg/homebrew-ffmpeg/issues/140
+    ENV.append "LDFLAGS", "-Wl,-ld_classic" if DevelopmentTools.clang_build_version >= 1500
+
     args = %W[
       --prefix=#{prefix}
       --datadir=#{share}/ffmpeg

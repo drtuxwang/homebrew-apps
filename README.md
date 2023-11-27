@@ -26,7 +26,7 @@ Usage:
  * Casks/microsoft-teams.rb Microsoft Teams 1.6.00.7354
  * Casks/robo-3t.rb         Robo3T 1.4.4
  * Casks/virtualbox.rb      VirtualBox 7.0.8
- * Casks/vlc.rb             VLC 3.0.18
+ * Casks/vlc.rb             VLC 3.0.20
  * Casks/xournal-plus-plus.rb  Xournal++ 1.1.3
  * Casks/xquartz.rb         XQuartz 2.8.5
  * Casks/zoom.rb            Zoom 5.16.2
@@ -37,7 +37,7 @@ Usage:
  * Formula/coreutils.rb     Coreutils 9.1
  * Formula/curl.rb          Curl 7.88.1
  * Formula/ddrescue.rb      Ddrescue 1.27
- * Formula/ffmpeg@5.rb      FFmpeg 5.1.3
+ * Formula/ffmpeg@5.rb      FFmpeg 5.1.4
  * Formula/findutils.rb     GNU findutils 4.9.0
  * Formula/geeqie.rb        Geeqie 2.0.1
  * Formula/gnupg@2.2.rb     GnuPG 2.2.40
@@ -54,7 +54,7 @@ Usage:
  * Formula/openjdk@17.rb    OpenJDK 17.0.8
  * Formula/openssh.rb       OpenSSH 9.2p1
  * Formula/openssl@1.1.rb   OpenSSL 1.1.1n
- * Formula/openssl@3.0.rb   OpenSSL 3.0.9
+ * Formula/openssl@3.0.rb   OpenSSL 3.0.12
  * Formula/paps.rb          PAPS 0.7.1
  * Formula/par2.rb          PAR2 0.8.1
  * Formula/postgresql@11.rb Postgresql 11.19
