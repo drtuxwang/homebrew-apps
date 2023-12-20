@@ -20,7 +20,7 @@ Usage:
  * Casks/firefox-esr.rb     Firefox ESR 115.3.1
  * Casks/gimp.rb            GIMP 2.10.34
  * Casks/iterm2.rb          iTerm2 3.4.21
- * Casks/libreoffice-still.rb  LibreOffice Stable 7.5.6
+ * Casks/libreoffice-still.rb  LibreOffice Stable 7.5.9
  * Casks/meld.rb            MELD 3.21.0
  * Casks/microsoft-edge.rb  Microsoft Edge 119.0.2151.97
  * Casks/microsoft-teams.rb Microsoft Teams 1.6.00.7354
