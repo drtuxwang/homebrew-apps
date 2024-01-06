@@ -1,6 +1,18 @@
 .PHONY: default
 default: help        # Default
 
+.PHONY: diff
+diff:                # Show differences in branch from origin/main
+	git fetch ||:
+	git difftool --tool=meld --dir-diff origin/main
+
+.PHONY: reset
+reset:               # Ignore differences and reset to origin/<branch>
+	git status
+	git fetch origin
+	git reset --hard origin/`git rev-parse --abbrev-ref HEAD`
+	@make --no-print-directory time
+
 .PHONY: time
 time:                # Set file timestamps to git commit times (last 7 days)
 	@echo "\n*** Fixing git timestamps (last 7 days)***"
@@ -22,13 +34,6 @@ gc:                  # Run git garbage collection
 		-c gc.pruneExpire=now gc \
 		--aggressive
 	@du -s $(shell pwd)/.git
-
-.PHONY: reset
-reset:               # Reset git branch
-	git status
-	git fetch origin
-	git reset --hard origin/`git rev-parse --abbrev-ref HEAD`
-	@make --no-print-directory time
 
 .PHONY: help
 help:                # Show Makefile options
