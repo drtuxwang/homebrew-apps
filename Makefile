@@ -26,6 +26,7 @@ time-all:            # Set file timestamps to git commit times (all files)
 .PHONY: gc
 gc:                  # Run git garbage collection
 	@du -s $(shell pwd)/.git
+	rm -rf .git/lfs
 	git \
 		-c gc.reflogExpire=0 \
 		-c gc.reflogExpireUnreachable=0 \
