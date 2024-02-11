@@ -1,4 +1,4 @@
-# 2022-2023  By Dr Colin Kong
+# 2022-2024  By Dr Colin Kong
 
 This repo is used to pin Homebrew Formula to stable versions instead of using latest.
 Check [Homebrew's documentation](https://docs.brew.sh).
@@ -20,7 +20,7 @@ Usage:
  * Casks/firefox-esr.rb     Firefox ESR 115.3.1
  * Casks/gimp.rb            GIMP 2.10.34
  * Casks/iterm2.rb          iTerm2 3.4.23
- * Casks/libreoffice-still.rb  LibreOffice Stable 7.5.9
+ * Casks/libreoffice-still.rb  LibreOffice Stable 7.6.5.1
  * Casks/meld.rb            MELD 3.21.0
  * Casks/microsoft-edge.rb  Microsoft Edge 119.0.2151.97
  * Casks/microsoft-teams.rb Microsoft Teams 1.6.00.7354
