@@ -72,5 +72,6 @@ Usage:
  * Formula/vorbis-tools.rb  VorbisTools 1.4.2
  * Formula/wget.rb          Wget 1.21.3
  * Formula/yajl.rb          Yajl 2.1.0
+ * Formula/watch.rb         Watch 4.0.4
  * Formula/zlib.rb          Zib 1.2.13
 ```
