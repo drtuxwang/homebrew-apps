@@ -22,7 +22,7 @@ Usage:
  * Casks/iterm2.rb          iTerm2 3.4.23
  * Casks/libreoffice-still.rb  LibreOffice Stable 7.6.5.1
  * Casks/meld.rb            MELD 3.21.0
- * Casks/microsoft-edge.rb  Microsoft Edge 119.0.2151.97
+ * Casks/microsoft-edge.rb  Microsoft Edge 121.0.2277.106
  * Casks/microsoft-teams.rb Microsoft Teams 1.6.00.7354
  * Casks/robo-3t.rb         Robo3T 1.4.4
  * Casks/virtualbox.rb      VirtualBox 7.0.8

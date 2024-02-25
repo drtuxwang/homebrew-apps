@@ -2,12 +2,12 @@ cask "microsoft-edge" do
   linkid = on_arch_conditional arm: "2093504", intel: "2069148"
 
   on_arm do
-    version "119.0.2151.97,fec5727f-a1e0-458c-a53d-cc69caef1230"
-    sha256 "786f8c5d3c53e54ddcf14d780164f1bc7f21483a5e01988a1b930b2aa790e7b0"
+    version "121.0.2277.106,d6fb84d9-f938-4de1-a97f-b3e346a924be"
+    sha256 "b295496582213abecc4f12e29162a5998d8f47881ba9d9e0927cfe5fc6c0c9cd"
   end
   on_intel do
-    version "119.0.2151.97,fec5727f-a1e0-458c-a53d-cc69caef1230"
-    sha256 "786f8c5d3c53e54ddcf14d780164f1bc7f21483a5e01988a1b930b2aa790e7b0"
+    version "121.0.2277.106,2d028641-56cb-4759-9c5a-6f9b2127cbce"
+    sha256 "12cde51af1f1bbb284d06720a94a455401ce10b0a53ee1483f679721026be122"
   end
 
   url "https://msedge.sf.dl.delivery.mp.microsoft.com/filestreamingservice/files/#{version.csv.second}/MicrosoftEdge-#{version.csv.first}.pkg"
@@ -34,15 +34,14 @@ cask "microsoft-edge" do
         },
       ]
 
-  uninstall pkgutil:   "com.microsoft.edgemac",
-            launchctl: [
+  uninstall launchctl: [
               "com.microsoft.EdgeUpdater.update-internal.109.0.1518.89.system",
               "com.microsoft.EdgeUpdater.update.system",
               "com.microsoft.EdgeUpdater.wake.109.0.1518.89.system",
-            ]
+            ],
+            pkgutil:   "com.microsoft.edgemac"
 
   zap delete: "/Library/Application Support/Microsoft/EdgeUpdater",
-      rmdir:  "/Library/Application Support/Microsoft",
       trash:  [
         "~/Library/Application Scripts/com.microsoft.edgemac.wdgExtension",
         "~/Library/Application Support/Microsoft Edge",
@@ -57,5 +56,6 @@ cask "microsoft-edge" do
         "~/Library/Preferences/com.microsoft.edgemac.plist",
         "~/Library/Saved Application State/com.microsoft.edgemac.*",
         "~/Library/WebKit/com.microsoft.edgemac",
-      ]
+      ],
+      rmdir:  "/Library/Application Support/Microsoft"
 end
