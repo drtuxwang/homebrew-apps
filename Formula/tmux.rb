@@ -1,43 +1,45 @@
 class Tmux < Formula
   desc "Terminal multiplexer"
   homepage "https://tmux.github.io/"
-  url "https://github.com/tmux/tmux/releases/download/3.3a/tmux-3.3a.tar.gz"
-  sha256 "e4fd347843bd0772c4f48d6dde625b0b109b7a380ff15db21e97c11a4dcdf93f"
+  url "https://github.com/tmux/tmux/releases/download/3.4/tmux-3.4.tar.gz"
+  sha256 "551ab8dea0bf505c0ad6b7bb35ef567cdde0ccb84357df142c254f35a23e19aa"
   license "ISC"
 
   livecheck do
     url :stable
+    regex(/v?(\d+(?:\.\d+)+[a-z]?)/i)
     strategy :github_latest
-    regex(%r{href=.*?/tag/v?(\d+(?:\.\d+)+[a-z]?)["' >]}i)
   end
 
   bottle do
-    rebuild 1
-    sha256 cellar: :any,                 arm64_monterey: "0ca53c250a3e70d97ca511edd13f2d16660e4e94a41465a8708306e03b231b76"
-    sha256 cellar: :any,                 arm64_big_sur:  "89a9edfec5e665df5b9e2e0f47e1721c1e074725846705819042a9c691683981"
-    sha256 cellar: :any,                 monterey:       "c0489c25fa963b14fd5d3c53eb50f681e85bb7a5716883afe77c1efbdea7c882"
-    sha256 cellar: :any,                 big_sur:        "85eb7ec949aad04ad0a550a4a8151bc4453e229d813fda0be724f17fd8cf40e1"
-    sha256 cellar: :any,                 catalina:       "3cb3c779b9e62f0f5f5d9204309d194148ee66e3bc930480cabf7bee1b897623"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:   "b2eed5059099ba7ffeb68260c3163184b5d9b6a09e3b9b80d33ab2bf007513d8"
+    sha256 cellar: :any,                 arm64_sonoma:   "a08171578c7d4d7b119762def24287f8a3f9b233c0967e837e0d98e7ad25d9c3"
+    sha256 cellar: :any,                 arm64_ventura:  "a1c3e1f58e9ad9a5f1f811c8b71a78acbbcdf96ffb6b04141ed0b343b6ca8844"
+    sha256 cellar: :any,                 arm64_monterey: "9e3a38bbdf781413bfbb092ca0c54ee5b4d5602cbdfe76194ecaedd30f9747f4"
+    sha256 cellar: :any,                 sonoma:         "4f25fb0148c79d3710a7c1366ad05de469f6a2695ef3b3c0ea64a8ffe7228f9e"
+    sha256 cellar: :any,                 ventura:        "258a4e1d8c6398f126abfd9e01725be4518233280c6f93b9b77bba75963426ca"
+    sha256 cellar: :any,                 monterey:       "277f1642992f9cf1923bf47fbefdd50ea39bf2bb0f7171b9429d84fe77a7a296"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:   "3842883605afca7b6470f042f6c81a6e5c27cc5dff6b95806cad91ee30dbe32e"
   end
 
   head do
-    url "https://github.com/tmux/tmux.git"
+    url "https://github.com/tmux/tmux.git", branch: "master"
 
     depends_on "autoconf" => :build
     depends_on "automake" => :build
     depends_on "libtool" => :build
-
-    uses_from_macos "bison" => :build
   end
 
   depends_on "pkg-config" => :build
   depends_on "libevent"
   depends_on "ncurses"
 
+  uses_from_macos "bison" => :build # for yacc
+
   # Old versions of macOS libc disagree with utf8proc character widths.
   # https://github.com/tmux/tmux/issues/2223
-  depends_on "utf8proc" if MacOS.version >= :high_sierra
+  on_system :linux, macos: :sierra_or_newer do
+    depends_on "utf8proc"
+  end
 
   resource "completion" do
     url "https://raw.githubusercontent.com/imomaliev/tmux-bash-completion/f5d53239f7658f8e8fbaf02535cc369009c436d6/completions/tmux"
@@ -53,12 +55,16 @@ class Tmux < Formula
       --sysconfdir=#{etc}
     ]
 
-    # tmux finds the `tmux-256color` terminfo provided by our ncurses
-    # and uses that as the default `TERM`, but this causes issues for
-    # tools that link with the very old ncurses provided by macOS.
-    # https://github.com/Homebrew/homebrew-core/issues/102748
-    args << "--with-TERM=screen-256color" if OS.mac?
-    args << "--enable-utf8proc" if MacOS.version >= :high_sierra
+    if OS.mac?
+      # tmux finds the `tmux-256color` terminfo provided by our ncurses
+      # and uses that as the default `TERM`, but this causes issues for
+      # tools that link with the very old ncurses provided by macOS.
+      # https://github.com/Homebrew/homebrew-core/issues/102748
+      args << "--with-TERM=screen-256color"
+      args << "--enable-utf8proc" if MacOS.version >= :high_sierra
+    else
+      args << "--enable-utf8proc"
+    end
 
     ENV.append "LDFLAGS", "-lresolv"
     system "./configure", *args
