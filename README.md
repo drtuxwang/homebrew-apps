@@ -51,7 +51,7 @@ Usage:
  * Formula/jq.rb                JQ 1.6
  * Formula/make.rb              GNU Make 4.3
  * Formula/node@16.rb           NodeJS 16.20.0
- * Formula/openjdk@17.rb        OpenJDK 17.0.8
+ * Formula/openjdk@17.rb        OpenJDK 17.0.10
  * Formula/openssh.rb           OpenSSH 9.2p1
  * Formula/openssl@1.1.rb       OpenSSL 1.1.1n
  * Formula/openssl@3.0.rb       OpenSSL 3.0.12
