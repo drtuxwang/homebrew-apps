@@ -23,13 +23,10 @@ Usage:
  * Casks/libreoffice-still.rb  LibreOffice Stable 7.6.5.1
  * Casks/meld.rb            MELD 3.21.0
  * Casks/microsoft-edge.rb  Microsoft Edge 121.0.2277.106
- * Casks/microsoft-teams.rb Microsoft Teams 1.6.00.7354
  * Casks/robo-3t.rb         Robo3T 1.4.4
- * Casks/virtualbox.rb      VirtualBox 7.0.8
  * Casks/vlc.rb             VLC 3.0.20
  * Casks/xournal-plus-plus.rb  Xournal++ 1.1.3
  * Casks/xquartz.rb         XQuartz 2.8.5
- * Casks/zoom.rb            Zoom 5.16.2
  * Formula/aria2.rb         Aria2 1.36.0
  * Formula/bash.rb          Bash 5.2.15
  * Formula/bash-completion@2.rb  Bash Completion 2.11
@@ -51,7 +48,6 @@ Usage:
  * Formula/jq.rb            JQ 1.6
  * Formula/make.rb          GNU Make 4.3
  * Formula/node@16.rb       NodeJS 16.20.0
- * Formula/openjdk@17.rb    OpenJDK 17.0.8
  * Formula/openssh.rb       OpenSSH 9.2p1
  * Formula/openssl@1.1.rb   OpenSSL 1.1.1n
  * Formula/openssl@3.0.rb   OpenSSL 3.0.12
