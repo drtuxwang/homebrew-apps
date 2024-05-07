@@ -47,6 +47,7 @@ Usage:
  * Formula/iproute2mac.rb       iproute2mac 1.4.1
  * Formula/jq.rb                JQ 1.6
  * Formula/make.rb              GNU Make 4.3
+ * Formula/neovim.rb            Neovim 0.9.5
  * Formula/node@16.rb           NodeJS 16.20.0
  * Formula/openssh.rb           OpenSSH 9.2p1
  * Formula/openssl@1.1.rb       OpenSSL 1.1.1n
