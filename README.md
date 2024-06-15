@@ -8,7 +8,6 @@ Stable versions taken from:
 
 * git clone https://github.com/Homebrew/homebrew-core
 * git clone https://github.com/homebrew/homebrew-cask
-* git clone https://github.com/Homebrew/homebrew-cask-versions
 
 ---
 ```
@@ -20,11 +19,11 @@ Usage:
  * Casks/firefox-esr.rb         Firefox ESR 115.3.1
  * Casks/gimp.rb                GIMP 2.10.34
  * Casks/iterm2.rb              iTerm2 3.4.23
- * Casks/libreoffice-still.rb   LibreOffice Stable 7.6.6.3
+ * Casks/libreoffice-still.rb   LibreOffice Stable 7.6.7.2
  * Casks/meld.rb                MELD 3.21.0
- * Casks/microsoft-edge.rb      Microsoft Edge 123.0.2420.97
+ * Casks/microsoft-edge.rb      Microsoft Edge 125.0.2535.92
  * Casks/robo-3t.rb             Robo3T 1.4.4
- * Casks/vlc.rb                 VLC 3.0.20
+ * Casks/vlc.rb                 VLC 3.0.21
  * Casks/xournal-plus-plus.rb   Xournal++ 1.1.3
  * Casks/xquartz.rb             XQuartz 2.8.5
  * Formula/aria2.rb             Aria2 1.36.0
