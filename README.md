@@ -33,7 +33,7 @@ Usage:
  * Formula/coreutils.rb         Coreutils 9.1
  * Formula/curl.rb              Curl 7.88.1
  * Formula/ddrescue.rb          Ddrescue 1.27
- * Formula/ffmpeg@5.rb          FFmpeg 5.1.4
+ * Formula/ffmpeg@5.rb          FFmpeg 5.1.5
  * Formula/findutils.rb         GNU findutils 4.9.0
  * Formula/geeqie.rb            Geeqie 2.0.1
  * Formula/gnupg@2.2.rb         GnuPG 2.2.40
