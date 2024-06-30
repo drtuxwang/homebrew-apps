@@ -1,9 +1,9 @@
 class OpensslAT30 < Formula
   desc "Cryptography and SSL/TLS Toolkit"
   homepage "https://openssl.org/"
-  url "https://www.openssl.org/source/openssl-3.0.12.tar.gz"
-  mirror "https://www.mirrorservice.org/sites/ftp.openssl.org/source/openssl-3.0.12.tar.gz"
-  sha256 "f93c9e8edde5e9166119de31755fc87b4aa34863662f67ddfcba14d0b6b69b61"
+  url "https://www.openssl.org/source/openssl-3.0.13.tar.gz"
+  mirror "https://www.mirrorservice.org/sites/ftp.openssl.org/source/openssl-3.0.13.tar.gz"
+  sha256 "88525753f79d3bec27d2fa7c66aa0b92b3aa9498dafd93d7cfa4b3780cdae313"
   license "Apache-2.0"
 
   livecheck do
@@ -12,22 +12,21 @@ class OpensslAT30 < Formula
   end
 
   bottle do
-    sha256 arm64_sonoma:   "92f6d0388a5853790b95677eb4336ffbfa1f5cf5b7104f4d58353fb1810bb06a"
-    sha256 arm64_ventura:  "0754457ae61dd8abca455f71e3336731285e835cddd3c62fd8435e96d65eb3c5"
-    sha256 arm64_monterey: "d09b4b4a34cf8b862b96394725983cecd4b4ceec64722eaeed53addbb3a29cc6"
-    sha256 sonoma:         "4460ec16c1a8d84ceb74369945bae74beb8d44b1e27a7d87514f28729b0ebdae"
-    sha256 ventura:        "9c0229b8cfc4d23fdaad79ee051bbed5eb509222837506c99cbaf520dab667b0"
-    sha256 monterey:       "0410e299f6a4e18aeb7a8417e199dd9ece83deac98a25945c0dd81a9295b19be"
-    sha256 x86_64_linux:   "410ac96c03f299a2a69e798a4548ba9eb6d17f86eb6178ded1708b2ee116f005"
+    rebuild 1
+    sha256 arm64_sonoma:   "5cf40592c269c1bfffb25c9be18a07d7dfb65d499c81337d10fa088d61eb7e00"
+    sha256 arm64_ventura:  "c7701bc83751c65257f5fbea454cd5758d359b1df9ceaac721624c03f06d73ea"
+    sha256 arm64_monterey: "c362cc9e153f65f548f627f06c411d50dac642cc936541f6bf9dbb0ad7e7e1e7"
+    sha256 sonoma:         "3c391c2d92b620719d351f542ab2fdd4cae76a0c1d97ad572dfdfe7748bbe885"
+    sha256 ventura:        "c51aff36b2986ad4d77329902d3e3485b1b19dd218e12ac4236127cd825eda1a"
+    sha256 monterey:       "18bc7ea49056430a343c1d7d7de23925b445a7baecaed33261bf9defbd9eed02"
+    sha256 x86_64_linux:   "0ce99826f56f67ef9790d365da99c632f32686824f8c1e5c29300b6aa24638b4"
   end
 
-  keg_only :shadowed_by_macos, "macOS provides LibreSSL"
+  keg_only :versioned_formula
 
   depends_on "ca-certificates"
 
   on_linux do
-    keg_only "it conflicts with the `openssl@1.1` formula"
-
     resource "Test::Harness" do
       url "https://cpan.metacpan.org/authors/id/L/LE/LEONT/Test-Harness-3.44.tar.gz"
       mirror "http://cpan.metacpan.org/authors/id/L/LE/LEONT/Test-Harness-3.44.tar.gz"
@@ -66,6 +65,12 @@ class OpensslAT30 < Formula
       args += (ENV.ldflags || "").split
     end
     args
+  end
+
+  # Fixes CVE-2024-2511. Remove in next release.
+  patch do
+    url "https://github.com/openssl/openssl/commit/b52867a9f618bb955bed2a3ce3db4d4f97ed8e5d.patch?full_index=1"
+    sha256 "6f36d0980ddbd7d40c34cb1a340fc1f726a91d7e75573806a77ae0778af37989"
   end
 
   def install

@@ -49,7 +49,7 @@ Usage:
  * Formula/node@16.rb           NodeJS 16.20.0
  * Formula/openssh.rb           OpenSSH 9.2p1
  * Formula/openssl@1.1.rb       OpenSSL 1.1.1n
- * Formula/openssl@3.0.rb       OpenSSL 3.0.12
+ * Formula/openssl@3.0.rb       OpenSSL 3.0.13
  * Formula/paps.rb              PAPS 0.7.1
  * Formula/par2.rb              PAR2 0.8.1
  * Formula/postgresql@11.rb     Postgresql 11.19
