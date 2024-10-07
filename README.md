@@ -61,7 +61,7 @@ Usage:
  * Formula/tcptraceroute.rb     TCP Traceroute 1.5beta7
  * Formula/telnet.rb            Telnet 69
  * Formula/tiger-vnc.rb         TigerVnc Viewer 1.12.0
- * Formula/tmux.rb              TMUX 3.4
+ * Formula/tmux.rb              TMUX 3.5a
  * Formula/vim.rb               VIM 9.0
  * Formula/vorbis-tools.rb      VorbisTools 1.4.2
  * Formula/wget.rb              Wget 1.21.3
