@@ -18,7 +18,7 @@ Usage:
 
  * Casks/firefox-esr.rb         Firefox ESR 115.3.1
  * Casks/gimp.rb                GIMP 2.10.34
- * Casks/iterm2.rb              iTerm2 3.4.23
+ * Casks/iterm2.rb              iTerm2 3.5.10
  * Casks/libreoffice-still.rb   LibreOffice Stable 24.2.7.2
  * Casks/meld.rb                MELD 3.21.0
  * Casks/microsoft-edge.rb      Microsoft Edge 128.0.2739.67
