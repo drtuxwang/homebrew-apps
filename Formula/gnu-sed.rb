@@ -1,23 +1,24 @@
 class GnuSed < Formula
   desc "GNU implementation of the famous stream editor"
   homepage "https://www.gnu.org/software/sed/"
-  url "https://ftp.gnu.org/gnu/sed/sed-4.9.tar.xz"
-  mirror "https://ftpmirror.gnu.org/sed/sed-4.9.tar.xz"
+  url "https://ftpmirror.gnu.org/gnu/sed/sed-4.9.tar.xz"
+  mirror "https://ftp.gnu.org/gnu/sed/sed-4.9.tar.xz"
   sha256 "6e226b732e1cd739464ad6862bd1a1aba42d7982922da7a53519631d24975181"
   license "GPL-3.0-or-later"
 
-  bottle do
-    sha256 cellar: :any_skip_relocation, arm64_ventura:  "5abaf39c16d02125db97d14cd36a96cf1a20a87821199cb38a55134fd4e0aaef"
-    sha256 cellar: :any_skip_relocation, arm64_monterey: "20ae3f853a32e7f7f0f340e8c751ab7350888a655bfe7c5c20e5746c61a24fd7"
-    sha256 cellar: :any_skip_relocation, arm64_big_sur:  "d7c89842a90d03dbb497bc1ded17b7d732fe20eaf69613fd4abb48820ab80895"
-    sha256 cellar: :any_skip_relocation, ventura:        "a1ac59a9a6fa20c6c904e047df3ee4d0b4e57c0a5df3821b17b8cd82bcc67b5a"
-    sha256 cellar: :any_skip_relocation, monterey:       "f5e2460ad86516b2517f1e77d672a4fd6ad30b158c470cccbb3b6464f228674d"
-    sha256 cellar: :any_skip_relocation, big_sur:        "c1c63d995d132a82fadc80b470eecfe816cb86c8cd716f01de5f003bc1199fcc"
-    sha256 cellar: :any_skip_relocation, catalina:       "fb5ee7317d987d9ac7f2ee357736a9bc594c88b5fbbca4f6a65046f1c2898c44"
-    sha256                               x86_64_linux:   "8abd5b48de6b706c1ce7c2f7b8775420f63078ba294bd5ad801e458776228bbc"
-  end
+  no_autobump! because: :requires_manual_review
 
-  conflicts_with "ssed", because: "both install share/info/sed.info"
+  bottle do
+    rebuild 3
+    sha256 cellar: :any_skip_relocation, arm64_tahoe:   "48a39d1b81adb766f45db53a0f4f8e9ce8b942386c270cfcdad3fbd08cb653f9"
+    sha256 cellar: :any_skip_relocation, arm64_sequoia: "70edbfd4aa9ec24bd48e21353d18433741c13ec10c9903d5c93349eabb83bebb"
+    sha256 cellar: :any_skip_relocation, arm64_sonoma:  "829d21105387351f6c7b07cd845d7e234c1a460ea5e50cc2f5dbcface45e378d"
+    sha256 cellar: :any_skip_relocation, arm64_ventura: "9a9b26c3bd0bdcfc258a24bb6b16eaf8677deaa5242adb8153f5ef0799f16946"
+    sha256 cellar: :any_skip_relocation, sonoma:        "4993928cc2d43c4eeb320e5851bb4d2ab31bd88a1c52f287141af18e46afc4b9"
+    sha256 cellar: :any_skip_relocation, ventura:       "9308ada3186ff94fafa9f3c8f2d937de4c2c4cde7ceeb2a69984095b072d795c"
+    sha256                               arm64_linux:   "6a3e57a3c43b15a0bd0cfe27e176f0b935650fd482a028a184dbb6b67f47d0a9"
+    sha256                               x86_64_linux:  "1b67527e8abadc04f961bb46ac20e54f731bcfe485d2813932735096f34ceca8"
+  end
 
   def install
     args = %W[
@@ -25,10 +26,13 @@ class GnuSed < Formula
       --disable-dependency-tracking
     ]
 
-    args << if OS.mac?
-      "--program-prefix=g"
+    args += if OS.mac?
+      %w[--program-prefix=g]
     else
-      "--without-selinux"
+      %w[
+        --disable-acl
+        --without-selinux
+      ]
     end
     system "./configure", *args
     system "make", "install"
@@ -38,7 +42,7 @@ class GnuSed < Formula
       (libexec/"gnuman/man1").install_symlink man1/"gsed.1" => "sed.1"
     end
 
-    libexec.install_symlink "gnuman" => "man"
+    (libexec/"gnubin").install_symlink "../gnuman" => "man"
   end
 
   def caveats
@@ -54,15 +58,16 @@ class GnuSed < Formula
   end
 
   test do
-    (testpath/"test.txt").write "Hello world!"
+    test_file = testpath/"test.txt"
+    test_file.write "Hello world!"
     if OS.mac?
-      system "#{bin}/gsed", "-i", "s/world/World/g", "test.txt"
-      assert_match "Hello World!", File.read("test.txt")
+      system bin/"gsed", "-i", "s/world/World/g", "test.txt"
+      assert_match "Hello World!", test_file.read
 
-      system "#{opt_libexec}/gnubin/sed", "-i", "s/world/World/g", "test.txt"
+      system opt_libexec/"gnubin/sed", "-i", "s/world/World/g", "test.txt"
     else
-      system "#{bin}/sed", "-i", "s/world/World/g", "test.txt"
+      system bin/"sed", "-i", "s/world/World/g", "test.txt"
     end
-    assert_match "Hello World!", File.read("test.txt")
+    assert_match "Hello World!", test_file.read
   end
 end

@@ -1,17 +1,17 @@
 class Telnet < Formula
   desc "User interface to the TELNET protocol"
   homepage "https://opensource.apple.com/"
-  url "https://github.com/apple-oss-distributions/remote_cmds/archive/refs/tags/remote_cmds-69.tar.gz"
-  sha256 "ce917122a88f8bee98686476abf83f1d442e387637a021eabe02f0fe88e02986"
+  url "https://github.com/apple-oss-distributions/remote_cmds/archive/refs/tags/remote_cmds-306.tar.gz"
+  sha256 "7f014f7eebb115460ea782e6bcade6d16effa56da17ee30f00012af07bc96c36"
   license all_of: ["BSD-4-Clause-UC", "APSL-1.0"]
 
   bottle do
-    sha256 cellar: :any_skip_relocation, arm64_ventura:  "59e9f6c98b4a22c314d741d0b54ae3cfb083b9b7069c8a11e7f34ff32a4e5744"
-    sha256 cellar: :any_skip_relocation, arm64_monterey: "c047ca7e8df187e638154fcc246a35555325b2e7078afa40808753446aa56009"
-    sha256 cellar: :any_skip_relocation, arm64_big_sur:  "12076e9de5b1fba596e5f56151a4f6a50307c070ca0ae0d387fc4cd923476d87"
-    sha256 cellar: :any_skip_relocation, ventura:        "b51c080ed44f4c8512eb4a46cf175e2c503b935a86623ee85bdb5679cdb26625"
-    sha256 cellar: :any_skip_relocation, monterey:       "bcba419b9e7fc87a4a53f36d5ef7c71aa2a5f1de9f5372d05ae631da137ed444"
-    sha256 cellar: :any_skip_relocation, big_sur:        "79720536bf6b812009dec6eb258d80881ffc31c05359051088e11ee4a5a78539"
+    sha256 cellar: :any_skip_relocation, arm64_tahoe:   "6916778f3b7f0607f648eba463764b8aaf9249daa4d6f12f3f2c2891c925059a"
+    sha256 cellar: :any_skip_relocation, arm64_sequoia: "a5314fd7135b21e32772b3d96751829e521453a429ab6b734fefbc99b4c94446"
+    sha256 cellar: :any_skip_relocation, arm64_sonoma:  "4db0190453f42c13370d8412c5d15398c1f85528c2f55e0e7f70d87d6fe1fd19"
+    sha256 cellar: :any_skip_relocation, arm64_ventura: "19ac3a5684b7216a9f42b0d38574fe09b675060184a703b9ce902778080b45e2"
+    sha256 cellar: :any_skip_relocation, sonoma:        "7cd17dbe54ca38974677ffaa5716384f0095957f5ad6aa5ee6e6398f58de6cb9"
+    sha256 cellar: :any_skip_relocation, ventura:       "e19e94a0f40871798ad05efa016f6bfd367b6216e3230d87324d41437411562a"
   end
 
   depends_on xcode: :build

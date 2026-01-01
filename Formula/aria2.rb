@@ -1,23 +1,23 @@
 class Aria2 < Formula
   desc "Download with resuming and segmented downloading"
   homepage "https://aria2.github.io/"
-  url "https://github.com/aria2/aria2/releases/download/release-1.36.0/aria2-1.36.0.tar.xz"
-  sha256 "58d1e7608c12404f0229a3d9a4953d0d00c18040504498b483305bcb3de907a5"
+  url "https://github.com/aria2/aria2/releases/download/release-1.37.0/aria2-1.37.0.tar.xz"
+  sha256 "60a420ad7085eb616cb6e2bdf0a7206d68ff3d37fb5a956dc44242eb2f79b66b"
   license "GPL-2.0-or-later"
-  revision 2
+  revision 1
+
+  no_autobump! because: :requires_manual_review
 
   bottle do
-    sha256 arm64_ventura:  "731a149db13b22d75a8b83822eabefabe3242208db9e683f5124cdd0d0c72411"
-    sha256 arm64_monterey: "1c89b3ecb3198cb66b0ee42205f237380115ee593c7af6c13d977f79c4c2ba9d"
-    sha256 arm64_big_sur:  "565453d34817d8a867db81957c96bbcc810e3fa3837926aa170ff11f03dfe001"
-    sha256 ventura:        "b81e1f4fd082425ded765ee045a5c398d3fb8dc2ed2419938ce4c6ae2f58e376"
-    sha256 monterey:       "ac0d8d8b627ff85c9aae7b56dc26cde0bae0c5641e4fe6b7381b9205b3e84b6a"
-    sha256 big_sur:        "43bdd51855a48f06ee8d8c891575ca7cf5329147c706a0c8f70db6c6f45680b3"
-    sha256 x86_64_linux:   "2a6786075c3cfb617e3691f193a7a8450b10b211022326b56d0aebc42f44d22f"
+    sha256 arm64_tahoe:   "508d3d5de9d8ba5cdaa3c87f89f39d9080d24f3356f03c552144d9ab0d6e161d"
+    sha256 arm64_sequoia: "5869d2fb49078d3c094d30cc47841f64fb5c8e72ce647d7a5d5d1591784f9a3d"
+    sha256 arm64_sonoma:  "a128a4ec26ae65668b5ecee5d655148ba9b980525df819ee257c9bcfc70970b3"
+    sha256 sonoma:        "675bbd269dc627ae80e5f8c13e002539b0fe60a206b6b4579e3b09dec881f87e"
+    sha256 arm64_linux:   "b160d724fe8bc645c8cfcc173efd604442b7774bbb36713f4e4809db3bac3fef"
+    sha256 x86_64_linux:  "bb0e79ca14456bd6e4a52f91e0584c5edc96a1cb6c264646f7614f80610ffffa"
   end
 
-  depends_on "pkg-config" => :build
-  depends_on "gettext"
+  depends_on "pkgconf" => :build
   depends_on "libssh2"
   depends_on "openssl@3"
   depends_on "sqlite"
@@ -25,12 +25,15 @@ class Aria2 < Formula
   uses_from_macos "libxml2"
   uses_from_macos "zlib"
 
+  on_macos do
+    depends_on "gettext"
+  end
+
   def install
     ENV.cxx11
 
-    args = %W[
-      --disable-dependency-tracking
-      --prefix=#{prefix}
+    args = %w[
+      --disable-silent-rules
       --with-libssh2
       --without-gnutls
       --without-libgmp
@@ -45,14 +48,14 @@ class Aria2 < Formula
       args << "--with-openssl"
     end
 
-    system "./configure", *args
+    system "./configure", *args, *std_configure_args
     system "make", "install"
 
     bash_completion.install "doc/bash_completion/aria2c"
   end
 
   test do
-    system "#{bin}/aria2c", "https://brew.sh/"
-    assert_predicate testpath/"index.html", :exist?, "Failed to create index.html!"
+    system bin/"aria2c", "https://brew.sh/"
+    assert_path_exists testpath/"index.html", "Failed to create index.html!"
   end
 end

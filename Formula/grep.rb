@@ -1,49 +1,64 @@
 class Grep < Formula
   desc "GNU grep, egrep and fgrep"
   homepage "https://www.gnu.org/software/grep/"
-  url "https://ftp.gnu.org/gnu/grep/grep-3.8.tar.xz"
-  mirror "https://ftpmirror.gnu.org/grep/grep-3.8.tar.xz"
-  sha256 "498d7cc1b4fb081904d87343febb73475cf771e424fb7e6141aff66013abc382"
+  url "https://ftp.gnu.org/gnu/grep/grep-3.11.tar.xz"
+  mirror "https://ftpmirror.gnu.org/grep/grep-3.11.tar.xz"
+  sha256 "1db2aedde89d0dea42b16d9528f894c8d15dae4e190b59aecc78f5a951276eab"
   license "GPL-3.0-or-later"
-  revision 1
 
   bottle do
-    sha256 cellar: :any,                 arm64_ventura:  "d2450448352fb2c389634cab3dec581882f6fc0f02a79489b4ba9c603b8f780b"
-    sha256 cellar: :any,                 arm64_monterey: "2a97d1431a8c367299b3ec1a62836136ad0474f78bd515f29b2210cc85591a66"
-    sha256 cellar: :any,                 arm64_big_sur:  "b23c8e00f85e4a10c1827619248a117ab2df3bd1503b5191c4467533fd299bec"
-    sha256 cellar: :any,                 ventura:        "d0d9b98da7b6eedb0d08d0b73e4dfd0627f5f3d19a3b850e248d33f6d13f039e"
-    sha256 cellar: :any,                 monterey:       "5b13dfd3339908dedfb233c3ba77a45fff7f55569b9252979349eb7fb0a45b5a"
-    sha256 cellar: :any,                 big_sur:        "f3b4b34263e59e4dfe427381ddecb820189f8336c464d97e5ab4e8b624d65484"
-    sha256 cellar: :any,                 catalina:       "bbb952d77089ccca022c170c295b48dea9d5afc90c3da65ee447adb04593c2c2"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:   "f771443ddfadac7158cd0bb2f4f1e682a2cc9b69e99c8ed0f77e41f546838067"
+    rebuild 2
+    sha256 cellar: :any,                 arm64_sequoia:  "b2b59b800b2017f64aa518d30dd83bb009486b67bab2b9fd2f5b96383741ccf3"
+    sha256 cellar: :any,                 arm64_sonoma:   "bad191c3178de90cfea096ef75c4ae8c97a3fed1aa36a9fd0eb88e02e0300ecd"
+    sha256 cellar: :any,                 arm64_ventura:  "3b671635a7a98ec6a5fd2f1ed1f7b61274fe68aa5ba2e23c448241777e5c23e0"
+    sha256 cellar: :any,                 arm64_monterey: "f4b2ed835aac8ced4b617609f502c657ea1f20a97282e1c19aa75b08316bd952"
+    sha256 cellar: :any,                 sonoma:         "ce3337c484b58a52ffc841fae13f3f530fbe8132a53f7f8a3fae8e17a994fa6c"
+    sha256 cellar: :any,                 ventura:        "0499226ca301f19321f44d9e0229f5dffceea6af6509835af86c073ac3a3e329"
+    sha256 cellar: :any,                 monterey:       "85f180f4b3c3563befd80d4d91389a9a7e4e69eb956c74251a3d3ed83fa26cf8"
+    sha256 cellar: :any_skip_relocation, arm64_linux:    "25754fa95edae29ecb33a9e7bd01bc70337a8d3b651a3a5033f58d3309a8313b"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:   "f8a180d77300df9dfad5d2e12b7f2061207fef15b63a6a4ed6d4082daa00345d"
   end
 
-  depends_on "pkg-config" => :build
+  head do
+    url "https://git.savannah.gnu.org/git/grep.git", branch: "master"
+
+    depends_on "autoconf" => :build
+    depends_on "automake" => :build
+    depends_on "gettext" => :build
+    depends_on "texinfo" => :build
+    depends_on "wget" => :build
+
+    uses_from_macos "gperf" => :build
+  end
+
+  depends_on "pkgconf" => :build
   depends_on "pcre2"
 
   def install
+    system "./bootstrap" if build.head?
+
     args = %W[
-      --disable-dependency-tracking
       --disable-nls
-      --prefix=#{prefix}
       --infodir=#{info}
       --mandir=#{man}
       --with-packager=Homebrew
     ]
 
     args << "--program-prefix=g" if OS.mac?
-    system "./configure", *args
+    system "./configure", *args, *std_configure_args
     system "make"
     system "make", "install"
 
     if OS.mac?
-      %w[grep egrep fgrep].each do |prog|
-        (libexec/"gnubin").install_symlink bin/"g#{prog}" => prog
-        (libexec/"gnuman/man1").install_symlink man1/"g#{prog}.1" => "#{prog}.1"
+      bin.children.each do |file|
+        (libexec/"gnubin").install_symlink file => file.basename.to_s.delete_prefix("g")
+      end
+      man1.children.each do |file|
+        (libexec/"gnuman/man1").install_symlink file => file.basename.to_s.delete_prefix("g")
       end
     end
 
-    libexec.install_symlink "gnuman" => "man"
+    (libexec/"gnubin").install_symlink "../gnuman" => "man"
   end
 
   def caveats

@@ -1,55 +1,43 @@
 class Openssh < Formula
   desc "OpenBSD freely-licensed SSH connectivity tools"
   homepage "https://www.openssh.com/"
-  url "https://cdn.openbsd.org/pub/OpenBSD/OpenSSH/portable/openssh-9.2p1.tar.gz"
-  mirror "https://cloudflare.cdn.openbsd.org/pub/OpenBSD/OpenSSH/portable/openssh-9.2p1.tar.gz"
-  version "9.2p1"
-  sha256 "3f66dbf1655fb45f50e1c56da62ab01218c228807b21338d634ebcdf9d71cf46"
+  url "https://cdn.openbsd.org/pub/OpenBSD/OpenSSH/portable/openssh-10.0p2.tar.gz"
+  mirror "https://cloudflare.cdn.openbsd.org/pub/OpenBSD/OpenSSH/portable/openssh-10.0p2.tar.gz"
+  version "10.0p2"
+  sha256 "021a2e709a0edf4250b1256bd5a9e500411a90dddabea830ed59cef90eb9d85c"
   license "SSH-OpenSSH"
+  revision 3
 
   livecheck do
     url "https://ftp.openbsd.org/pub/OpenBSD/OpenSSH/portable/"
     regex(/href=.*?openssh[._-]v?(\d+(?:\.\d+)+(?:p\d+)?)\.t/i)
   end
 
+  no_autobump! because: :requires_manual_review
+
   bottle do
-    sha256 arm64_ventura:  "0bd992280afe0a80c6ef2456f2f6f146ec022953b00eca2844280cddca1e5615"
-    sha256 arm64_monterey: "706b407daf4ba8b3eabfe89b4f28343a0d8ce9f0abdc8469a7800efbb3a38f9a"
-    sha256 arm64_big_sur:  "ff63c37a13d548b9de87a0969e4975e1cebdd89bf193ea9dc786259912accf6b"
-    sha256 ventura:        "29837156936bc7ff71eb97fbd65554298615580b39b1b0b9ace7dac5e8edbf4f"
-    sha256 monterey:       "1cbad6d9431b9730c356f5bae95d2677d15ccac574f1bd1b534d81b0ba8c3c82"
-    sha256 big_sur:        "ba3fba3e56774851598dc881dea0f7a3d5177cb3704a3e8418dd69d7c06df376"
-    sha256 x86_64_linux:   "21f41d179f117b1f180f7aa0fcd881bc3894c85184e86d6fe1bb6335c4ef542e"
+    sha256 arm64_tahoe:   "b3ccfc9d03e2537712744e06dcbd88a1e233c358b10f27ddbe308734c2b9dfc2"
+    sha256 arm64_sequoia: "f7a3e12f19b331269587d168587021b80199ca01e4e85c2fbca7670b6dc967f3"
+    sha256 arm64_sonoma:  "dc913ad7c12bf1fe9ce739244799a7c071de29a8fb2fed09328ac546ae7b88ea"
+    sha256 sonoma:        "3768ce79cac789ac1fc0ced7af9b889922fec8833d4577cac093a2871408a1de"
+    sha256 arm64_linux:   "aa0e923d4c80f6b2b484cf09c45a6d701e3a66f4fb1efbe1aa5a8c66fcc0068f"
+    sha256 x86_64_linux:  "e936ed97a65e019cb9070ee78abb12eca083dcbe5e11042b709a21e7a1f7dbd6"
   end
 
   # Please don't resubmit the keychain patch option. It will never be accepted.
   # https://archive.is/hSB6d#10%25
 
-  depends_on "pkg-config" => :build
+  depends_on "pkgconf" => :build
   depends_on "ldns"
   depends_on "libfido2"
-  depends_on "openssl@1.1"
+  depends_on "openssl@3"
 
+  uses_from_macos "mandoc" => :build
   uses_from_macos "lsof" => :test
   uses_from_macos "krb5"
   uses_from_macos "libedit"
   uses_from_macos "libxcrypt"
   uses_from_macos "zlib"
-
-  on_macos do
-    # Both these patches are applied by Apple.
-    # https://github.com/apple-oss-distributions/OpenSSH/blob/main/openssh/sandbox-darwin.c#L66
-    patch do
-      url "https://raw.githubusercontent.com/Homebrew/patches/1860b0a745f1fe726900974845d1b0dd3c3398d6/openssh/patch-sandbox-darwin.c-apple-sandbox-named-external.diff"
-      sha256 "d886b98f99fd27e3157b02b5b57f3fb49f43fd33806195970d4567f12be66e71"
-    end
-
-    # https://github.com/apple-oss-distributions/OpenSSH/blob/main/openssh/sshd.c#L532
-    patch do
-      url "https://raw.githubusercontent.com/Homebrew/patches/d8b2d8c2612fd251ac6de17bf0cc5174c3aab94c/openssh/patch-sshd.c-apple-sandbox-named-external.diff"
-      sha256 "3505c58bf1e584c8af92d916fe5f3f1899a6b15cc64a00ddece1dc0874b2f78f"
-    end
-  end
 
   on_linux do
     depends_on "linux-pam"
@@ -64,24 +52,27 @@ class Openssh < Formula
     if OS.mac?
       ENV.append "CPPFLAGS", "-D__APPLE_SANDBOX_NAMED_EXTERNAL__"
 
-      # Ensure sandbox profile prefix is correct.
-      # We introduce this issue with patching, it's not an upstream bug.
-      inreplace "sandbox-darwin.c", "@PREFIX@/share/openssh", etc/"ssh"
+      # FIXME: `ssh-keygen` errors out when this is built with optimisation.
+      # Reported upstream at https://bugzilla.mindrot.org/show_bug.cgi?id=3584
+      # Also can segfault at runtime: https://github.com/Homebrew/homebrew-core/issues/135200
+      if Hardware::CPU.intel? && DevelopmentTools.clang_build_version == 1403
+        inreplace "configure", "-fzero-call-used-regs=all", "-fzero-call-used-regs=used"
+      end
     end
 
-    args = *std_configure_args + %W[
+    args = %W[
       --sysconfdir=#{etc}/ssh
       --with-ldns
       --with-libedit
       --with-kerberos5
       --with-pam
-      --with-ssl-dir=#{Formula["openssl@1.1"].opt_prefix}
+      --with-ssl-dir=#{Formula["openssl@3"].opt_prefix}
       --with-security-key-builtin
     ]
 
     args << "--with-privsep-path=#{var}/lib/sshd" if OS.linux?
 
-    system "./configure", *args
+    system "./configure", *args, *std_configure_args
     system "make"
     ENV.deparallelize
     system "make", "install"
@@ -93,13 +84,22 @@ class Openssh < Formula
 
     buildpath.install resource("com.openssh.sshd.sb")
     (etc/"ssh").install "com.openssh.sshd.sb" => "org.openssh.sshd.sb"
+
+    # Don't hardcode Cellar paths in configuration files
+    inreplace etc/"ssh/sshd_config", prefix, opt_prefix
   end
 
   test do
+    (etc/"ssh").find do |pn|
+      next unless pn.file?
+
+      refute_match HOMEBREW_CELLAR.to_s, pn.read
+    end
+
     assert_match "OpenSSH_", shell_output("#{bin}/ssh -V 2>&1")
 
     port = free_port
-    fork { exec sbin/"sshd", "-D", "-p", port.to_s }
+    spawn sbin/"sshd", "-D", "-p", port.to_s
     sleep 2
     assert_match "sshd", shell_output("lsof -i :#{port}")
   end
