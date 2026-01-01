@@ -24,6 +24,7 @@ Usage:
  * Formula/aria2.rb             Aria2 1.37.0
  * Formula/bash.rb              Bash 5.2.37
  * Formula/bash-completion@2.rb Bash Completion 2.16.0
+ * Formula/bc.rb                GNU bc 1.07.1
  * Formula/bzip2.rb             bzip2 1.0.8
  * Formula/coreutils.rb         Coreutils 9.7
  * Formula/curl.rb              Curl 8.14.1
